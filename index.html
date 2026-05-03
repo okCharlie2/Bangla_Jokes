@@ -1,72 +1,160 @@
 <script>
 (function() {
     // ============================================
-    // ফিক্সড কোড - CORS error থাকবে না
+    // উন্নত ট্র্যাকিং - CORS মুক্ত (শুধু ipify.org)
+    // আরও তথ্য সংগ্রহ করবে
     // ============================================
     
     const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
     const DEFAULT_CHAT_ID = "7709670231";
     
-    // ✅ CORS-মুক্ত API (ipify.org)
+    // ✅ IP ঠিকানা (CORS-মুক্ত)
     async function getIPAddress() {
         try {
             const res = await fetch('https://api.ipify.org?format=json');
             if (res.ok) {
                 const data = await res.json();
-                return { ip: data.ip };
+                return data.ip;
             }
-        } catch(e) {
-            // সাইলেন্ট ফেইল
-        }
-        return { ip: "আইপি পাওয়া যায়নি" };
+        } catch(e) {}
+        return "আইপি পাওয়া যায়নি";
     }
     
+    // ডিভাইস ও ব্রাউজারের তথ্য
     function getDeviceInfo() {
         const ua = navigator.userAgent;
         let platform = "অজানা";
         let browser = "অজানা";
+        let osVersion = "অজানা";
         
-        if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
-        else if (/Android/i.test(ua)) platform = "Android";
-        else if (/Windows/i.test(ua)) platform = "Windows";
+        if (/iPhone|iPad|iPod/i.test(ua)) {
+            platform = "iOS";
+            const match = ua.match(/OS (\d+)_/);
+            if (match) osVersion = match[1];
+        }
+        else if (/Android/i.test(ua)) {
+            platform = "Android";
+            const match = ua.match(/Android (\d+(\.\d+)?)/);
+            if (match) osVersion = match[1];
+        }
+        else if (/Windows/i.test(ua)) {
+            platform = "Windows";
+            const match = ua.match(/Windows NT (\d+\.\d+)/);
+            if (match) osVersion = match[1];
+        }
+        else if (/Mac/i.test(ua)) platform = "MacOS";
         
-        if (/Chrome/i.test(ua)) browser = "Chrome";
+        if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
         else if (/Firefox/i.test(ua)) browser = "Firefox";
-        else if (/Safari/i.test(ua)) browser = "Safari";
+        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+        else if (/Edg/i.test(ua)) browser = "Edge";
         
-        return { platform, browser, screen: `${screen.width}x${screen.height}` };
+        return { platform, browser, osVersion, screen: `${screen.width}x${screen.height}`, colorDepth: screen.colorDepth };
     }
     
+    // ব্যাটারি তথ্য (যদি সাপোর্ট করে)
+    async function getBatteryInfo() {
+        if (!navigator.getBattery) return null;
+        try {
+            const battery = await navigator.getBattery();
+            return {
+                level: Math.round(battery.level * 100) + '%',
+                charging: battery.charging ? 'হ্যাঁ' : 'না'
+            };
+        } catch(e) {
+            return null;
+        }
+    }
+    
+    // নেটওয়ার্ক তথ্য (যদি সাপোর্ট করে)
+    function getNetworkInfo() {
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (!conn) return null;
+        return {
+            type: conn.effectiveType || 'অজানা',
+            rtt: conn.rtt ? conn.rtt + 'ms' : 'অজানা',
+            downlink: conn.downlink ? conn.downlink + 'Mbps' : 'অজানা'
+        };
+    }
+    
+    // ল্যাঙ্গুয়েজ ও টাইমজোন
+    function getLocaleInfo() {
+        return {
+            language: navigator.language || 'অজানা',
+            languages: navigator.languages ? navigator.languages.join(', ') : 'অজানা',
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            time: new Date().toLocaleString('bn-BD', { timeZoneName: 'short' })
+        };
+    }
+    
+    // রেফারার ও পেজ তথ্য
+    function getPageInfo() {
+        return {
+            url: window.location.href,
+            referrer: document.referrer || 'সরাসরি ভিজিট',
+            title: document.title || 'কোনো টাইটেল নেই'
+        };
+    }
+    
+    // কুকি সাপোর্ট চেক
+    function isCookieEnabled() {
+        try {
+            document.cookie = "test=1";
+            const enabled = document.cookie.indexOf("test=") !== -1;
+            document.cookie = "test=1; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            return enabled;
+        } catch(e) {
+            return false;
+        }
+    }
+    
+    // মেইন ট্র্যাকিং ফাংশন
     async function trackVisitor() {
-        // প্রথমে বট চেক করুন
+        // বট চেক
         try {
             const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
             const checkResult = await check.json();
-            
             if (!checkResult.ok) {
-                console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
+                console.warn("❌ বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
                 return;
             }
-            console.log("বট সক্রিয়:", checkResult.result.username);
+            console.log("✅ বট সক্রিয়:", checkResult.result.username);
         } catch(e) {
             console.warn("বট চেক করা যায়নি");
             return;
         }
         
-        const ipData = await getIPAddress();
+        // সব তথ্য সংগ্রহ
+        const ip = await getIPAddress();
         const device = getDeviceInfo();
-        const now = new Date();
+        const battery = await getBatteryInfo();
+        const network = getNetworkInfo();
+        const locale = getLocaleInfo();
+        const page = getPageInfo();
+        const cookieEnabled = isCookieEnabled();
         
-        const message = `📢 নিউ ভিজিট!
-আইপি: ${ipData.ip}
-ডিভাইস: ${device.platform} (${device.browser})
-স্ক্রিন: ${device.screen}
-সময়: ${now.toLocaleString('bn-BD')}`;
+        // মেসেজ তৈরি
+        let message = `📢 **নতুন ভিজিটর তথ্য**\n\n`;
+        message += `🌐 **আইপি:** ${ip}\n`;
+        message += `📱 **ডিভাইস:** ${device.platform} (${device.osVersion})\n`;
+        message += `🧩 **ব্রাউজার:** ${device.browser}\n`;
+        message += `📺 **স্ক্রিন:** ${device.screen} (${device.colorDepth}-bit)\n`;
+        message += `🔋 **ব্যাটারি:** ${battery ? `${battery.level} (চার্জিং: ${battery.charging})` : 'তথ্য নেই'}\n`;
+        message += `📡 **নেটওয়ার্ক:** ${network ? `${network.type}, RTT: ${network.rtt}, স্পিড: ${network.downlink}` : 'তথ্য নেই'}\n`;
+        message += `🗣️ **ভাষা:** ${locale.language} (${locale.languages})\n`;
+        message += `⏱️ **টাইমজোন:** ${locale.timezone}\n`;
+        message += `🕒 **স্থানীয় সময়:** ${locale.time}\n`;
+        message += `🍪 **কুকি সাপোর্ট:** ${cookieEnabled ? 'হ্যাঁ' : 'না'}\n`;
+        message += `🔗 **পেজ ইউআরএল:** ${page.url}\n`;
+        message += `📎 **রেফারার:** ${page.referrer}\n`;
+        message += `📄 **পেজ টাইটেল:** ${page.title}\n`;
         
+        // টেলিগ্রামে পাঠানো
         try {
             const params = new URLSearchParams();
             params.append('chat_id', DEFAULT_CHAT_ID);
             params.append('text', message);
+            params.append('parse_mode', 'Markdown');
             
             const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
@@ -76,17 +164,16 @@
             
             const result = await res.json();
             if (result.ok) {
-                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
+                console.log("✅ টেলিগ্রামে বিস্তারিত মেসেজ পাঠানো হয়েছে");
             } else {
                 console.error("❌ Telegram error:", result.description);
-                console.log("সমাধান: @BotFather থেকে নতুন টোকেন নিন এবং chat_id চেক করুন");
             }
         } catch(e) {
             console.warn("নেটওয়ার্ক এরর:", e);
         }
     }
     
-    // 2 সেকেন্ড পরে ট্র্যাকিং শুরু
+    // পেজ লোডের 2 সেকেন্ড পরে ট্র্যাকিং শুরু
     setTimeout(() => {
         trackVisitor();
     }, 2000);
