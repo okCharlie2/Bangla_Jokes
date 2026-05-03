@@ -1,14 +1,69 @@
 <script>
 (function() {
     // ============================================
-    // উন্নত ট্র্যাকিং - CORS মুক্ত (শুধু ipify.org)
-    // আরও তথ্য সংগ্রহ করবে
+    // ডিবাগ বক্স সহ ট্র্যাকিং স্ক্রিপ্ট (তথ্য দেখাবে)
     // ============================================
     
     const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
     const DEFAULT_CHAT_ID = "7709670231";
     
-    // ✅ IP ঠিকানা (CORS-মুক্ত)
+    // ✅ ডিবাগ বক্স তৈরি করা
+    function createDebugBox() {
+        const div = document.createElement('div');
+        div.id = 'visitor-debug-box';
+        div.style.cssText = `
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 300px;
+            max-height: 400px;
+            background: #1e1e2f;
+            color: #00ff88;
+            font-size: 12px;
+            font-family: monospace;
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 99999;
+            overflow: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            border: 1px solid #00ff88;
+            cursor: move;
+        `;
+        div.innerHTML = `<strong>📡 সংগৃহীত তথ্য (লাইভ)</strong><br><br><span id="debug-content">লোড হচ্ছে...</span>`;
+        document.body.appendChild(div);
+        
+        // ড্র্যাগ করার সুবিধা (ঐচ্ছিক)
+        let isDragging = false, offsetX, offsetY;
+        div.addEventListener('mousedown', (e) => {
+            if (e.target === div || div.contains(e.target)) {
+                isDragging = true;
+                offsetX = e.clientX - div.offsetLeft;
+                offsetY = e.clientY - div.offsetTop;
+                div.style.position = 'fixed';
+            }
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                div.style.left = (e.clientX - offsetX) + 'px';
+                div.style.top = (e.clientY - offsetY) + 'px';
+                div.style.right = 'auto';
+                div.style.bottom = 'auto';
+            }
+        });
+        window.addEventListener('mouseup', () => isDragging = false);
+        
+        return document.getElementById('debug-content');
+    }
+    
+    function updateDebugBox(debugElement, key, value) {
+        if (debugElement) {
+            let current = debugElement.innerHTML;
+            if (current === 'লোড হচ্ছে...') current = '';
+            debugElement.innerHTML = current + `<strong>${key}:</strong> ${value}<br>`;
+            debugElement.scrollTop = debugElement.scrollHeight;
+        }
+    }
+    
     async function getIPAddress() {
         try {
             const res = await fetch('https://api.ipify.org?format=json');
@@ -20,7 +75,6 @@
         return "আইপি পাওয়া যায়নি";
     }
     
-    // ডিভাইস ও ব্রাউজারের তথ্য
     function getDeviceInfo() {
         const ua = navigator.userAgent;
         let platform = "অজানা";
@@ -52,128 +106,90 @@
         return { platform, browser, osVersion, screen: `${screen.width}x${screen.height}`, colorDepth: screen.colorDepth };
     }
     
-    // ব্যাটারি তথ্য (যদি সাপোর্ট করে)
     async function getBatteryInfo() {
         if (!navigator.getBattery) return null;
         try {
             const battery = await navigator.getBattery();
-            return {
-                level: Math.round(battery.level * 100) + '%',
-                charging: battery.charging ? 'হ্যাঁ' : 'না'
-            };
-        } catch(e) {
-            return null;
-        }
+            return { level: Math.round(battery.level * 100) + '%', charging: battery.charging ? 'হ্যাঁ' : 'না' };
+        } catch(e) { return null; }
     }
     
-    // নেটওয়ার্ক তথ্য (যদি সাপোর্ট করে)
     function getNetworkInfo() {
         const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
         if (!conn) return null;
-        return {
-            type: conn.effectiveType || 'অজানা',
-            rtt: conn.rtt ? conn.rtt + 'ms' : 'অজানা',
-            downlink: conn.downlink ? conn.downlink + 'Mbps' : 'অজানা'
-        };
+        return { type: conn.effectiveType || 'অজানা', rtt: conn.rtt ? conn.rtt + 'ms' : 'অজানা', downlink: conn.downlink ? conn.downlink + 'Mbps' : 'অজানা' };
     }
     
-    // ল্যাঙ্গুয়েজ ও টাইমজোন
     function getLocaleInfo() {
-        return {
-            language: navigator.language || 'অজানা',
-            languages: navigator.languages ? navigator.languages.join(', ') : 'অজানা',
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            time: new Date().toLocaleString('bn-BD', { timeZoneName: 'short' })
-        };
+        return { language: navigator.language || 'অজানা', languages: navigator.languages ? navigator.languages.join(', ') : 'অজানা', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, time: new Date().toLocaleString('bn-BD', { timeZoneName: 'short' }) };
     }
     
-    // রেফারার ও পেজ তথ্য
     function getPageInfo() {
-        return {
-            url: window.location.href,
-            referrer: document.referrer || 'সরাসরি ভিজিট',
-            title: document.title || 'কোনো টাইটেল নেই'
-        };
+        return { url: window.location.href, referrer: document.referrer || 'সরাসরি ভিজিট', title: document.title || 'কোনো টাইটেল নেই' };
     }
     
-    // কুকি সাপোর্ট চেক
     function isCookieEnabled() {
         try {
             document.cookie = "test=1";
             const enabled = document.cookie.indexOf("test=") !== -1;
             document.cookie = "test=1; expires=Thu, 01 Jan 1970 00:00:00 UTC";
             return enabled;
-        } catch(e) {
-            return false;
-        }
+        } catch(e) { return false; }
     }
     
-    // মেইন ট্র্যাকিং ফাংশন
     async function trackVisitor() {
-        // বট চেক
-        try {
-            const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
-            const checkResult = await check.json();
-            if (!checkResult.ok) {
-                console.warn("❌ বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
-                return;
-            }
-            console.log("✅ বট সক্রিয়:", checkResult.result.username);
-        } catch(e) {
-            console.warn("বট চেক করা যায়নি");
-            return;
-        }
+        const debugSpan = createDebugBox();
+        updateDebugBox(debugSpan, '⏳ শুরু', 'তথ্য সংগ্রহ করা হচ্ছে...');
         
-        // সব তথ্য সংগ্রহ
         const ip = await getIPAddress();
-        const device = getDeviceInfo();
-        const battery = await getBatteryInfo();
-        const network = getNetworkInfo();
-        const locale = getLocaleInfo();
-        const page = getPageInfo();
-        const cookieEnabled = isCookieEnabled();
+        updateDebugBox(debugSpan, '🌐 আইপি', ip);
         
-        // মেসেজ তৈরি
-        let message = `📢 **নতুন ভিজিটর তথ্য**\n\n`;
-        message += `🌐 **আইপি:** ${ip}\n`;
-        message += `📱 **ডিভাইস:** ${device.platform} (${device.osVersion})\n`;
-        message += `🧩 **ব্রাউজার:** ${device.browser}\n`;
-        message += `📺 **স্ক্রিন:** ${device.screen} (${device.colorDepth}-bit)\n`;
-        message += `🔋 **ব্যাটারি:** ${battery ? `${battery.level} (চার্জিং: ${battery.charging})` : 'তথ্য নেই'}\n`;
-        message += `📡 **নেটওয়ার্ক:** ${network ? `${network.type}, RTT: ${network.rtt}, স্পিড: ${network.downlink}` : 'তথ্য নেই'}\n`;
-        message += `🗣️ **ভাষা:** ${locale.language} (${locale.languages})\n`;
-        message += `⏱️ **টাইমজোন:** ${locale.timezone}\n`;
-        message += `🕒 **স্থানীয় সময়:** ${locale.time}\n`;
-        message += `🍪 **কুকি সাপোর্ট:** ${cookieEnabled ? 'হ্যাঁ' : 'না'}\n`;
-        message += `🔗 **পেজ ইউআরএল:** ${page.url}\n`;
-        message += `📎 **রেফারার:** ${page.referrer}\n`;
-        message += `📄 **পেজ টাইটেল:** ${page.title}\n`;
+        const device = getDeviceInfo();
+        updateDebugBox(debugSpan, '📱 ডিভাইস', `${device.platform} (${device.osVersion})`);
+        updateDebugBox(debugSpan, '🧩 ব্রাউজার', device.browser);
+        updateDebugBox(debugSpan, '📺 স্ক্রিন', `${device.screen} (${device.colorDepth}-bit)`);
+        
+        const battery = await getBatteryInfo();
+        if (battery) updateDebugBox(debugSpan, '🔋 ব্যাটারি', `${battery.level} (চার্জিং: ${battery.charging})`);
+        else updateDebugBox(debugSpan, '🔋 ব্যাটারি', 'তথ্য নেই');
+        
+        const network = getNetworkInfo();
+        if (network) updateDebugBox(debugSpan, '📡 নেটওয়ার্ক', `${network.type}, RTT: ${network.rtt}, স্পিড: ${network.downlink}`);
+        else updateDebugBox(debugSpan, '📡 নেটওয়ার্ক', 'তথ্য নেই');
+        
+        const locale = getLocaleInfo();
+        updateDebugBox(debugSpan, '🗣️ ভাষা', locale.language);
+        updateDebugBox(debugSpan, '⏱️ টাইমজোন', locale.timezone);
+        updateDebugBox(debugSpan, '🕒 স্থানীয় সময়', locale.time);
+        
+        updateDebugBox(debugSpan, '🍪 কুকি সাপোর্ট', isCookieEnabled() ? 'হ্যাঁ' : 'না');
+        
+        const page = getPageInfo();
+        updateDebugBox(debugSpan, '🔗 পেজ ইউআরএল', page.url.substring(0, 50) + (page.url.length > 50 ? '...' : ''));
+        updateDebugBox(debugSpan, '📎 রেফারার', page.referrer.substring(0, 40));
+        
+        updateDebugBox(debugSpan, '✅ স্ট্যাটাস', 'টেলিগ্রামে পাঠানো হচ্ছে...');
         
         // টেলিগ্রামে পাঠানো
+        const message = `📢 নিউ ভিজিট!\nআইপি: ${ip}\nডিভাইস: ${device.platform} (${device.osVersion})\nব্রাউজার: ${device.browser}\nস্ক্রিন: ${device.screen}\nব্যাটারি: ${battery ? `${battery.level} (চার্জিং: ${battery.charging})` : 'তথ্য নেই'}\nনেটওয়ার্ক: ${network ? `${network.type}` : 'তথ্য নেই'}\nভাষা: ${locale.language}\nটাইমজোন: ${locale.timezone}\nসময়: ${locale.time}`;
+        
         try {
             const params = new URLSearchParams();
             params.append('chat_id', DEFAULT_CHAT_ID);
             params.append('text', message);
-            params.append('parse_mode', 'Markdown');
-            
             const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: params
             });
-            
             const result = await res.json();
-            if (result.ok) {
-                console.log("✅ টেলিগ্রামে বিস্তারিত মেসেজ পাঠানো হয়েছে");
-            } else {
-                console.error("❌ Telegram error:", result.description);
-            }
+            if (result.ok) updateDebugBox(debugSpan, '✅ টেলিগ্রাম', 'সফলভাবে পাঠানো হয়েছে');
+            else updateDebugBox(debugSpan, '❌ টেলিগ্রাম', `এরর: ${result.description}`);
         } catch(e) {
-            console.warn("নেটওয়ার্ক এরর:", e);
+            updateDebugBox(debugSpan, '❌ টেলিগ্রাম', `নেটওয়ার্ক এরর`);
         }
     }
     
-    // পেজ লোডের 2 সেকেন্ড পরে ট্র্যাকিং শুরু
     setTimeout(() => {
         trackVisitor();
     }, 2000);
