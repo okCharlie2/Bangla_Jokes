@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>স্টাইলিশ কাউন্টডাউন | ১০ থেকে ০</title>
+    <title>স্টাইলিশ কাউন্টডাউন | ১ → ০</title>
     <style>
         * {
             margin: 0;
@@ -14,34 +14,34 @@
 
         body {
             min-height: 100vh;
-            background: radial-gradient(circle at 30% 10%, #0b1120, #030712);
+            background: radial-gradient(circle at 20% 30%, #0a0f1f, #02040c);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Inter', sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
             padding: 1rem;
         }
 
-        /* প্রধান কার্ড */
-        .counter-container {
-            background: rgba(15, 25, 45, 0.55);
-            backdrop-filter: blur(18px);
-            border-radius: 4rem;
-            padding: 2rem 1.8rem 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* মূল কন্টেইনার */
+        .countdown-card {
+            background: rgba(20, 28, 40, 0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 3.5rem;
+            padding: 2rem 2rem 2.2rem;
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
             text-align: center;
-            transition: all 0.3s ease;
+            box-shadow: 0 30px 50px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
         }
 
-        /* সার্কেল প্রোগ্রেস এরিয়া */
-        .progress-ring-area {
+        /* অ্যানিমেটেড রিং সহ বৃত্ত */
+        .ring-wrapper {
             position: relative;
             width: 260px;
             height: 260px;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 1rem;
         }
 
         svg {
@@ -51,152 +51,142 @@
         }
 
         .ring-bg {
-            stroke: rgba(255, 255, 255, 0.12);
+            stroke: rgba(255, 255, 255, 0.1);
             stroke-width: 8;
             fill: none;
         }
 
-        .ring-fill {
-            stroke: url(#gradient);
+        .ring-progress {
+            stroke: url(#grad);
             stroke-width: 8;
             fill: none;
             stroke-linecap: round;
-            stroke-dasharray: 754; /* 2 * pi * r (r=120px -> circumference ≈ 754) */
+            stroke-dasharray: 754; /* 2*pi*120 ≈ 754 */
             stroke-dashoffset: 0;
-            transition: stroke-dashoffset 0.2s linear;
-            filter: drop-shadow(0 0 6px #ffb34766);
+            transition: stroke-dashoffset 0.25s linear;
+            filter: drop-shadow(0 0 8px #ffaa44);
         }
 
-        .timer-number {
+        .timer-digit {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 5rem;
+            font-size: 5.6rem;
             font-weight: 800;
             font-family: 'Fira Mono', 'JetBrains Mono', monospace;
-            background: linear-gradient(135deg, #FFE6B0, #FFA559);
+            background: linear-gradient(145deg, #FFF2D7, #FFB347);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 20px rgba(255, 165, 80, 0.5);
-            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255, 180, 70, 0.6);
+            letter-spacing: 2px;
+            animation: gentlePulse 0.8s infinite alternate;
         }
 
-        .status-text {
-            margin-top: 1rem;
-            font-size: 1.3rem;
+        @keyframes gentlePulse {
+            0% { text-shadow: 0 0 5px #ffb347; opacity: 0.95; }
+            100% { text-shadow: 0 0 25px #ff9500; opacity: 1; }
+        }
+
+        .message {
+            margin-top: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 500;
-            color: #b9e2ff;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0,0,0,0.45);
             display: inline-block;
-            padding: 0.5rem 1.5rem;
+            padding: 0.5rem 1.4rem;
             border-radius: 60px;
+            color: #c0e0ff;
             backdrop-filter: blur(4px);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
-        /* ছোট নোটিশ / ডেকোরেশন */
-        .deco {
+        .footer-note {
             margin-top: 2rem;
-            font-size: 0.75rem;
-            color: #6f8faa;
-            border-top: 1px dashed rgba(255,255,255,0.2);
+            font-size: 0.7rem;
+            color: #6b86a3;
+            border-top: 1px dashed rgba(255,255,255,0.15);
             padding-top: 1rem;
             display: inline-block;
             width: 80%;
         }
 
-        @keyframes pulse-glow {
-            0% { text-shadow: 0 0 5px #ffb347; }
-            100% { text-shadow: 0 0 25px #ff9f2e; }
-        }
-
-        .timer-number {
-            animation: pulse-glow 0.9s ease-in-out infinite alternate;
-        }
-
-        /* responsive */
         @media (max-width: 480px) {
-            .progress-ring-area {
+            .ring-wrapper {
                 width: 200px;
                 height: 200px;
             }
-            .timer-number {
-                font-size: 3.8rem;
+            .timer-digit {
+                font-size: 4rem;
             }
-            .status-text {
+            .message {
                 font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-<div class="counter-container">
-    <div class="progress-ring-area">
+<div class="countdown-card">
+    <div class="ring-wrapper">
         <svg viewBox="0 0 280 280">
             <defs>
-                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FFB347" />
-                    <stop offset="100%" stop-color="#FF8C33" />
+                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFCD7E" />
+                    <stop offset="100%" stop-color="#FF9400" />
                 </linearGradient>
             </defs>
-            <!-- ব্যাকগ্রাউন্ড রিং -->
             <circle class="ring-bg" cx="140" cy="140" r="120"></circle>
-            <!-- প্রগ্রেস রিং (ডাইনামিক) -->
-            <circle class="ring-fill" cx="140" cy="140" r="120" id="progressRing"></circle>
+            <circle class="ring-progress" cx="140" cy="140" r="120" id="progressRing"></circle>
         </svg>
-        <div class="timer-number" id="countNumber">10</div>
+        <div class="timer-digit" id="countNumber">1</div>
     </div>
-    <div class="status-text" id="statusMsg">শুরু হচ্ছে ⏳</div>
-    <div class="deco">✦ কাউন্টডাউন ১০ → ০ ✦</div>
+    <div class="message" id="statusMsg">১ সেকেন্ড বাকি ⏱️</div>
+    <div class="footer-note">✦ কাউন্টডাউন ১ → ০ ✦</div>
 </div>
 
 <script>
     (function() {
-        let secondsLeft = 10;        // 10 থেকে 0 পর্যন্ত
-        const totalSeconds = 10;
+        let current = 1;       // 1 থেকে শুরু, তারপর 0
+        const total = 1;       // মোট সময় 1 সেকেন্ড (1→0)
         const circumference = 2 * Math.PI * 120; // ≈ 753.98
         const ring = document.getElementById('progressRing');
-        const countDisplay = document.getElementById('countNumber');
+        const numberDiv = document.getElementById('countNumber');
         const statusSpan = document.getElementById('statusMsg');
 
-        // সেট ড্যাশ অ্যারে
         ring.style.strokeDasharray = circumference;
 
         function updateProgress(value) {
-            // value = current second (0..total)
-            const offset = circumference - (value / totalSeconds) * circumference;
+            // value বর্তমান সেকেন্ড (1 বা 0)
+            const offset = circumference - (value / total) * circumference;
             ring.style.strokeDashoffset = offset;
         }
 
-        function updateDisplay() {
-            countDisplay.innerText = secondsLeft;
-            updateProgress(secondsLeft);
+        function updateUI() {
+            numberDiv.innerText = current;
+            updateProgress(current);
             
-            if (secondsLeft > 0) {
-                statusSpan.innerHTML = `${secondsLeft} সেকেন্ড বাকি 🕒`;
-            } else if (secondsLeft === 0) {
-                statusSpan.innerHTML = `সময় শেষ! ✨`;
-                countDisplay.style.animation = "none"; // থামবে গ্লো
-                countDisplay.style.background = "linear-gradient(135deg, #FFD966, #FFA500)";
-                countDisplay.style.webkitBackgroundClip = "text";
-                // প্রোগ্রেস রিং পুরো কমপ্লিট দেখাবে (০ হলে পুরো বৃত্ত)
-                updateProgress(0);
+            if (current === 1) {
+                statusSpan.innerHTML = "১ সেকেন্ড বাকি ⏱️";
+            } else if (current === 0) {
+                statusSpan.innerHTML = "✅ সময় শেষ! ✨";
+                numberDiv.style.animation = "none";
+                numberDiv.style.background = "linear-gradient(135deg, #FFD966, #FFAD33)";
+                numberDiv.style.webkitBackgroundClip = "text";
+                updateProgress(0);   // পুরো রিং কমপ্লিট দেখাবে
             }
         }
 
-        // প্রাথমিক রেন্ডার
-        updateDisplay();
+        updateUI();
 
-        const interval = setInterval(() => {
-            if (secondsLeft <= 0) {
-                clearInterval(interval);
-                statusSpan.innerHTML = "✅ সম্পন্ন! (পেজ রিফ্রেশ করলে পুনরায় দেখবে)";
+        const timer = setInterval(() => {
+            if (current <= 0) {
+                clearInterval(timer);
+                statusSpan.innerHTML = "সম্পন্ন (পুনরায় দেখতে রিফ্রেশ করুন)";
                 return;
             }
-            secondsLeft--;
-            updateDisplay();
+            current--;   // 1 → 0
+            updateUI();
         }, 1000);
     })();
 </script>
