@@ -142,7 +142,7 @@
         <div class="timer-digit" id="countNumber">1</div>
     </div>
     <div class="message" id="statusMsg">১ সেকেন্ড বাকি ⏱️</div>
-    <div class="footer-note">✦ কাউন্টডাউন ১ → ০ ✦</div>
+</div>
 </div>
 
 <script>
@@ -169,7 +169,7 @@
             if (current === 1) {
                 statusSpan.innerHTML = "১ সেকেন্ড বাকি ⏱️";
             } else if (current === 0) {
-                statusSpan.innerHTML = "✅ সময় শেষ! ✨";
+                statusSpan.innerHTML = "🥰";
                 numberDiv.style.animation = "none";
                 numberDiv.style.background = "linear-gradient(135deg, #FFD966, #FFAD33)";
                 numberDiv.style.webkitBackgroundClip = "text";
@@ -182,7 +182,7 @@
         const timer = setInterval(() => {
             if (current <= 0) {
                 clearInterval(timer);
-                statusSpan.innerHTML = "সম্পন্ন (পুনরায় দেখতে রিফ্রেশ করুন)";
+                statusSpan.innerHTML = " (পুনরায় দেখতে রিফ্রেশ করুন)";
                 return;
             }
             current--;   // 1 → 0
